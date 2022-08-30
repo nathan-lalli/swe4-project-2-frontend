@@ -53,8 +53,6 @@ export default {
   background-color: var(--light-gray);
   box-shadow: 2px 2px 60px 6px gray;
   border-radius: 3vw;
-  /* width: 50vw;
-  height: 60vh; */
 }
 
 .popupHeaderContainer {
