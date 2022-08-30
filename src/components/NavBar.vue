@@ -16,7 +16,7 @@ export default {
 
 <style scoped>
 .mainNav {
-  background-color: #627985;
+  background-color: var(--dark-blue);
   display: flex;
   flex-flow: row;
   padding: 0 4vw 0 4vw;
@@ -32,7 +32,7 @@ export default {
 
 .mainNavLogoText {
   align-items: center;
-  color: #ffffff;
+  color: white;
   font-size: 1.5vw;
   font-weight: 200;
   letter-spacing: 0.4vw;

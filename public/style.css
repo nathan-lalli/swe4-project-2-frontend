@@ -1,3 +1,12 @@
+:root {
+  --dark-blue: #627985;
+  --light-blue: #b2bfc6;
+  --light-gray: #ececec;
+  --light-red: #cd9a9a;
+  --darker-red: #9e7676;
+  --light-green: #a4cd9a;
+}
+
 * {
   font-family: sofia-pro, sans-serif;
   margin: 0;
