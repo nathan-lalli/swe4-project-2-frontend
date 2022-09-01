@@ -1,39 +1,28 @@
 <template>
   <div id="app">
-    <NavBar />
-    <div class="pageContentContainer">
-      <SearchBar />
-      <PopUpModal v-show="isPopupVisible" @close="closePopup" />
-    </div>
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
 
 <script>
-import SearchBar from "./components/SearchBar.vue";
-import NavBar from "./components/NavBar.vue";
-import PopUpModal from "./components/PopUpModal.vue";
+import HelloWorld from './components/HelloWorld.vue'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
-    SearchBar,
-    NavBar,
-    PopUpModal,
-  },
-  data() {
-    return {
-      isPopupVisible: false,
-    };
-  },
-  methods: {
-    showPopup() {
-      this.isPopupVisible = true;
-    },
-    closePopup() {
-      this.isPopupVisible = false;
-    },
-  },
-};
+    HelloWorld
+  }
+}
 </script>
 
-<style></style>
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
