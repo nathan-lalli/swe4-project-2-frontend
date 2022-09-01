@@ -3,7 +3,9 @@
     <NavBar />
     <div class="pageContentContainer">
       <SearchBar />
-      <PopUpModal v-show="isPopupVisible" @close="closePopup" />
+      <PopUpModal v-show="isPopupVisible" @close="closePopup">
+        <template v-slot:body> </template>
+      </PopUpModal>
     </div>
   </div>
 </template>
