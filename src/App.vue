@@ -3,6 +3,7 @@
     <NavBar />
     <div class="pageContentContainer">
       <SearchBar />
+      <div class="courseListTemp"></div>
       <PopUpModal v-show="isPopupVisible" @close="closePopup">
         <template v-slot:body> </template>
       </PopUpModal>
@@ -38,4 +39,15 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#app {
+  display: flex;
+  flex-flow: column;
+  height: 100vh;
+}
+.pageContentContainer {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+</style>
