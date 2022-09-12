@@ -5,7 +5,9 @@
       <SearchBar />
       <div class="courseListTemp"></div>
       <PopUpModal v-show="isPopupVisible" @close="closePopup">
-        <template v-slot:body> </template>
+        <template v-slot:body>
+          <DeletePopUpBody />
+        </template>
       </PopUpModal>
     </div>
   </div>
@@ -15,6 +17,7 @@
 import SearchBar from "./components/SearchBar.vue";
 import NavBar from "./components/NavBar.vue";
 import PopUpModal from "./components/PopUpModal.vue";
+import DeletePopUpBody from "./components/DeletePopUpBody.vue";
 
 export default {
   name: "App",
@@ -22,10 +25,11 @@ export default {
     SearchBar,
     NavBar,
     PopUpModal,
+    DeletePopUpBody,
   },
   data() {
     return {
-      isPopupVisible: false,
+      isPopupVisible: true,
     };
   },
   methods: {
