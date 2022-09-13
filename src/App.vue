@@ -3,12 +3,7 @@
     <NavBar />
     <div class="pageContentContainer">
       <SearchBar />
-      <div class="courseList">
-        <CourseItem></CourseItem>
-        <CourseItem></CourseItem>
-        <CourseItem></CourseItem>
-        <CourseItem></CourseItem>
-      </div>
+      <div class="courseList"></div>
     </div>
     <PopUpModal v-show="isPopupVisible" @close="closePopup" />
   </div>
