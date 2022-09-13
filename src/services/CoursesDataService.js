@@ -5,16 +5,16 @@ class CoursesDataService {
     return http.get("/course-t3/course");
   }
   getNumber(id) {
-    return http.get(`/course-t3/course/${id}`);
+    return http.get(`/course-t3/course/coursenumber/${id}`);
   }
   create(data) {
     return http.post("course-t3/course", data);
   }
   update(id, data) {
-    return http.put(`/course-t3/course/${id}`, data);
+    return http.put(`/course-t3/course/coursenumber/${id}`, data);
   }
   delete(id) {
-    return http.delete(`/course-t3/course/${id}`);
+    return http.delete(`/course-t3/course/coursenumber/${id}`);
   }
   deleteAll() {
     return http.delete(`/course-t3/course`);
@@ -23,22 +23,28 @@ class CoursesDataService {
     return http.get("/course-t3/course/lab");
   }
   getName(name) {
-    return http.get(`/course-t3/course/${name}`);
+    return http.get(`/course-t3/course/name/${name}`);
   }
   getDept(dept) {
-    return http.get(`/course-t3/course/${dept}`);
+    return http.get(`/course-t3/course/dept/${dept}`);
   }
   getLevel(level) {
-    return http.get(`/course-t3/course/${level}`);
+    return http.get(`/course-t3/course/level/${level}`);
   }
   getHours(hours) {
-    return http.get(`/course-t3/course/${hours}`);
+    return http.get(`/course-t3/course/hours/${hours}`);
   }
   getDesc(desc) {
-    return http.get(`/course-t3/course/${desc}`);
+    return http.get(`/course-t3/course/description/${desc}`);
   }
   getSemester(semester) {
-    return http.get(`/course-t3/course/${semester}`);
+    return http.get(`/course-t3/course/semester/${semester}`);
+  }
+  findPreReq() {
+    return http.get("/course-t3/course/prerequisite");
+  }
+  getPreReqCourse(course) {
+    return http.get(`/course-t3/course/prerequisite/${course}`);
   }
 }
 export default new CoursesDataService();
