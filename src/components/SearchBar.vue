@@ -52,7 +52,7 @@ export default {
   display: grid;
   grid-template-columns: 10fr 1fr;
   column-gap: 2vw;
-  padding: 2vw 2vw;
+  padding: 2vw 0;
 }
 
 .searchBarContainer {

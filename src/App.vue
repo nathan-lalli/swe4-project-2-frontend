@@ -3,7 +3,12 @@
     <NavBar />
     <div class="pageContentContainer">
       <SearchBar />
-      <div class="courseListTemp"></div>
+      <div class="courseList">
+        <CourseItem></CourseItem>
+        <CourseItem></CourseItem>
+        <CourseItem></CourseItem>
+        <CourseItem></CourseItem>
+      </div>
     </div>
     <PopUpModal v-show="isPopupVisible" @close="closePopup" />
   </div>
@@ -13,6 +18,7 @@
 import SearchBar from "./components/SearchBar.vue";
 import NavBar from "./components/NavBar.vue";
 import PopUpModal from "./components/PopUpModal.vue";
+import CourseItem from "./components/CourseItem.vue";
 
 export default {
   name: "App",
@@ -20,6 +26,7 @@ export default {
     SearchBar,
     NavBar,
     PopUpModal,
+    CourseItem,
   },
   data() {
     return {
@@ -43,9 +50,17 @@ export default {
   flex-flow: column;
   height: 100vh;
 }
+
 .pageContentContainer {
   display: flex;
   flex-flow: column;
   height: 100%;
+  padding: 0 2vw;
+}
+
+.courseList {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 2vh;
 }
 </style>
