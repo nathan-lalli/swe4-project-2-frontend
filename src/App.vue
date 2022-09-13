@@ -13,7 +13,6 @@
 import SearchBar from "./components/SearchBar.vue";
 import NavBar from "./components/NavBar.vue";
 import PopUpModal from "./components/PopUpModal.vue";
-import CourseItem from "./components/CourseItem.vue";
 
 export default {
   name: "App",
@@ -21,7 +20,6 @@ export default {
     SearchBar,
     NavBar,
     PopUpModal,
-    CourseItem,
   },
   data() {
     return {
