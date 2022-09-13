@@ -11,7 +11,7 @@
         <div class="courseNumberContainer">
           {{ courseDept }}-{{ courseNumber }}
         </div>
-        <div class="courseNameContainer">Object Oriented Programming</div>
+        <div class="courseNameContainer">{{ courseName }}</div>
         <div class="courseInformationContainer">
           <div class="courseInformationItems">
             <div class="courseInformationItem hoursItem">
@@ -65,15 +65,14 @@ export default {
   data() {
     return {
       listLocation: 0,
-      courseDept: "CMSC",
-      courseNumber: "2133",
-      courseName: "Object Oriented Programming",
+      courseDept: "AAAA",
+      courseNumber: "####",
+      courseName: "Default Course Name",
       courseHours: "3",
       courseSemesters: ["FALL", "SPRING"],
       courseLab: true,
-      coursePrereqs: ["CMSC-1133"],
-      courseDescription:
-        "Covers object oriented design and implementation issues. Topics include an introduction to modeling tools (e.g, UML), abstraction, inheritance, polymorphism, memory management, and common design patterns. The course also provides an introduction to event handling and GUI development using relevant class libraries.",
+      coursePrereqs: [],
+      courseDescription: "Default description.",
       isCourseDropdownOpen: false,
     };
   },
