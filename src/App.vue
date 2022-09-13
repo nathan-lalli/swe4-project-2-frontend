@@ -9,6 +9,7 @@
           <DeletePopUpBody />
         </template>
       </PopUpModal>
+      <div class="courseList"></div>
     </div>
   </div>
 </template>
@@ -49,9 +50,17 @@ export default {
   flex-flow: column;
   height: 100vh;
 }
+
 .pageContentContainer {
   display: flex;
   flex-flow: column;
   height: 100%;
+  padding: 0 2vw;
+}
+
+.courseList {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 2vh;
 }
 </style>
