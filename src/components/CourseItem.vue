@@ -23,18 +23,21 @@
             <div class="courseInformationItem semesterItem">
               <i class="fa-solid fa-calendar"></i>
               <div class="courseInformationItemValue semesterValue">
-                {{ courseSemesters.join(", ") }}
+                {{ courseSemesters }}
               </div>
             </div>
             <div v-if="courseLab" class="courseInformationItem labItem">
               <i class="fa-solid fa-flask"></i>
               <div class="courseInformationItemValue labValue">LAB</div>
             </div>
-            <div class="courseInformationItem prereqItem">
+            <div
+              v-if="courseHasPrereqs"
+              class="courseInformationItem prereqItem"
+            >
               <i class="fa-solid fa-circle-exclamation"></i>
               <!-- TODO: Prereqs more than one? -->
               <div class="courseInformationItemValue prereqValue">
-                {{ coursePrereqs.join(", ") }}
+                {{ coursePrereqs }}
               </div>
             </div>
           </div>
@@ -59,24 +62,32 @@
 <script>
 export default {
   name: "CourseItem",
-  mounted() {
-    this.$refs.listLocation;
-  },
   data() {
     return {
       listLocation: 0,
-      courseDept: "AAAA",
-      courseNumber: "####",
-      courseName: "Default Course Name",
-      courseHours: "3",
-      courseSemesters: ["FALL", "SPRING"],
+      courseDept: "",
+      courseNumber: 1111,
+      courseName: "",
+      courseHours: 3,
+      courseSemesters: [],
       courseLab: true,
+      courseHasPrereqs: true,
       coursePrereqs: [],
-      courseDescription: "Default description.",
+      courseDescription: "",
       isCourseDropdownOpen: false,
     };
   },
-  props: {},
+  mounted() {
+    this.courseDept = this.$store.getters.courseDept;
+    this.courseNumber = this.$store.getters.courseNumber;
+    this.courseName = this.$store.getters.courseName;
+    this.courseHours = this.$store.getters.courseHours;
+    this.courseSemesters = this.$store.getters.courseSemesters;
+    this.courseLab = this.$store.getters.courseLab;
+    this.courseHasPrereqs = this.$store.getters.courseHasPrereqs;
+    this.coursePrereqs = this.$store.getters.coursePrereqs;
+    this.courseDescription = this.$store.getters.courseDesc;
+  },
   methods: {
     toggleDropwdown() {
       var courseListing =
@@ -112,6 +123,9 @@ export default {
         );
         this.isCourseDropdownOpen = false;
       }
+    },
+    setListLocation(location) {
+      this.listLocation = location;
     },
   },
 };
@@ -211,6 +225,7 @@ export default {
   font-size: 2vw;
   font-weight: 900;
   letter-spacing: 0.05vw;
+  min-width: 12vw;
   padding: 1vh 1.5vw;
 }
 
@@ -220,6 +235,7 @@ export default {
   color: white;
   font-size: 2vw;
   font-weight: 100;
+  min-width: 30vw;
   padding: 1vh 2vw;
 }
 
@@ -237,7 +253,8 @@ export default {
   display: flex;
   flex-flow: row;
   flex-grow: 1;
-  justify-content: space-around;
+  column-gap: 3vw;
+  justify-content: left;
 }
 
 .courseInformationItem {
