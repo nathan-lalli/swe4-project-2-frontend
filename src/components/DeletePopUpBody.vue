@@ -14,7 +14,7 @@
       <div class="popupBodyContainer">
         <slot name="body">
           <div class="slotDefaultBodyContent">
-            Are you really sure you want to delete {{ courseName }}?
+            Are you really sure you want to delete {{ deleteCourseName }}?
           </div>
           <div class="slotDefaultBodyContent">
             This action cannot be undone.
@@ -22,7 +22,7 @@
         </slot>
         <div class="buttonContainer">
           <button class="backButton">
-            <i class="fa-solid fa-arrow-left"> BACK</i>
+            <i class="fa-solid fa-arrow-left" @click="close"> BACK</i>
           </button>
           <button class="deleteButton">
             <i class="fa-solid fa-trash-can"> DELETE</i>
@@ -37,11 +37,9 @@
 export default {
   name: "DeletePopUpBody",
   props: ["deleteCourseName"],
-  data() {
-    return { courseName: this.deleteCourseName };
-  },
   methods: {
     close() {
+      console.log(this.courseName + "Close");
       this.$emit("close");
     },
   },

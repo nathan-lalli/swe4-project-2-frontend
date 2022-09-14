@@ -6,12 +6,16 @@
       <div class="courseListTemp"></div>
       <PopUpModal v-show="isPopupVisible" @close="closePopup">
         <template v-slot:body>
-          <DeletePopUpBody :deleteCourseName="deleteCourseNameVal" />
+          <DeletePopUpBody
+            :deleteCourseName="getCourseName()"
+            v-show="isPopupVisible"
+            @close="closePopup"
+          />
         </template>
       </PopUpModal>
       <div class="courseList"></div>
     </div>
-    <PopUpModal v-show="isPopupVisible" @close="closePopup" />
+
     <CourseItem style="display: none"></CourseItem>
   </div>
 </template>
@@ -38,7 +42,7 @@ export default {
       isPopupVisible: false,
       responseLength: 0,
       hold: [],
-      deleteCourseNameVal: "CMSC-1234",
+      deleteCourseNameVal: "",
     };
   },
   created() {},
@@ -68,6 +72,14 @@ export default {
         courseItem.$mount();
         document.querySelector(".courseList").appendChild(courseItem.$el);
       }
+    },
+    changeDeleteCourse: function (courseName) {
+      console.log(courseName + "Change Delete Course");
+      this.deleteCourseNameVal = courseName;
+    },
+    getCourseName: function () {
+      console.log(this.deleteCourseNameVal + "Get Course Name");
+      return this.deleteCourseNameVal;
     },
   },
 };
