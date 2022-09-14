@@ -11,10 +11,8 @@
       </PopUpModal>
       <div class="courseList"></div>
     </div>
-    <<<<<<< HEAD =======
     <PopUpModal v-show="isPopupVisible" @close="closePopup" />
     <CourseItem style="display: none"></CourseItem>
-    >>>>>>> e6db291f8e97f423b20bee2cc8f803c841b9d53e
   </div>
 </template>
 
@@ -23,9 +21,7 @@ import Vue from "vue";
 import SearchBar from "./components/SearchBar.vue";
 import NavBar from "./components/NavBar.vue";
 import PopUpModal from "./components/PopUpModal.vue";
-<<<<<<< HEAD
 import DeletePopUpBody from "./components/DeletePopUpBody.vue";
-=======
 import CourseItem from "./components/CourseItem.vue";
 import CoursesDataService from "./services/CoursesDataService.js";
 export default {
