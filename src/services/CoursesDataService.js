@@ -1,4 +1,4 @@
-import { get } from "core-js/core/dict";
+// import { get } from "core-js/core/dict";
 import http from "../http-common";
 class CoursesDataService {
   getAll() {
