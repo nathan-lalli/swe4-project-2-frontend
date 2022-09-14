@@ -11,15 +11,23 @@
       </PopUpModal>
       <div class="courseList"></div>
     </div>
+    <<<<<<< HEAD =======
+    <PopUpModal v-show="isPopupVisible" @close="closePopup" />
+    <CourseItem style="display: none"></CourseItem>
+    >>>>>>> e6db291f8e97f423b20bee2cc8f803c841b9d53e
   </div>
 </template>
 
 <script>
+import Vue from "vue";
 import SearchBar from "./components/SearchBar.vue";
 import NavBar from "./components/NavBar.vue";
 import PopUpModal from "./components/PopUpModal.vue";
+<<<<<<< HEAD
 import DeletePopUpBody from "./components/DeletePopUpBody.vue";
-
+=======
+import CourseItem from "./components/CourseItem.vue";
+import CoursesDataService from "./services/CoursesDataService.js";
 export default {
   name: "App",
   components: {
@@ -27,12 +35,20 @@ export default {
     NavBar,
     PopUpModal,
     DeletePopUpBody,
+    CourseItem,
   },
   data() {
     return {
-      isPopupVisible: true,
+      isPopupVisible: false,
+      responseLength: 0,
+      hold: [],
       deleteCourseNameVal: "CMSC-1234",
     };
+  },
+  created() {},
+  mounted() {
+    this.generateInitialCourseList();
+    this.responseLength = this.$store.getters.responseLength;
   },
   methods: {
     showPopup() {
@@ -40,6 +56,22 @@ export default {
     },
     closePopup() {
       this.isPopupVisible = false;
+    },
+    async generateInitialCourseList() {
+      this.hold = await CoursesDataService.getAll();
+      this.$store.commit({
+        type: "newSearch",
+        response: this.hold.data.Courses,
+      });
+      this.responseLength = this.$store.getters.responseLength;
+      for (var i = 0; i < this.responseLength; i++) {
+        this.$store.commit({ type: "setResponseIndex", index: i });
+        var courseItemComp = Vue.extend(CourseItem);
+        const courseItem = new courseItemComp({ parent: this });
+        courseItem.setListLocation(i);
+        courseItem.$mount();
+        document.querySelector(".courseList").appendChild(courseItem.$el);
+      }
     },
   },
 };
