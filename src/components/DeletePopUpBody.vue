@@ -14,7 +14,7 @@
       <div class="popupBodyContainer">
         <slot name="body">
           <div class="slotDefaultBodyContent">
-            Are you really sure you want to delete *some class*?
+            Are you really sure you want to delete {{ courseName }}?
           </div>
           <div class="slotDefaultBodyContent">
             This action cannot be undone.
@@ -35,7 +35,11 @@
 
 <script>
 export default {
-  name: "PopUpModal",
+  name: "DeletePopUpBody",
+  props: ["deleteCourseName"],
+  data() {
+    return { courseName: this.deleteCourseName };
+  },
   methods: {
     close() {
       this.$emit("close");
@@ -50,6 +54,7 @@ export default {
   height: 2vh;
   margin-top: 2vh;
   text-align: center;
+  font-size: 1.5vw;
 }
 
 .popupBackdrop {

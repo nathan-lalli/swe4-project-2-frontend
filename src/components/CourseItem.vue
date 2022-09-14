@@ -48,7 +48,7 @@
     </div>
     <div class="courseDeleteButton">
       <!-- TODO: Add @click="deleteCourse(course)" -->
-      <button>
+      <button @click="deleteCourse(courseNumber)">
         <i class="fa-solid fa-trash-can"></i>
       </button>
     </div>
@@ -112,6 +112,9 @@ export default {
         );
         this.isCourseDropdownOpen = false;
       }
+    },
+    deleteCourse(courseNumber) {
+      return courseNumber;
     },
   },
 };

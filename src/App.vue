@@ -6,7 +6,7 @@
       <div class="courseListTemp"></div>
       <PopUpModal v-show="isPopupVisible" @close="closePopup">
         <template v-slot:body>
-          <DeletePopUpBody />
+          <DeletePopUpBody :deleteCourseName="deleteCourseNameVal" />
         </template>
       </PopUpModal>
       <div class="courseList"></div>
@@ -31,6 +31,7 @@ export default {
   data() {
     return {
       isPopupVisible: true,
+      deleteCourseNameVal: "CMSC-1234",
     };
   },
   methods: {
