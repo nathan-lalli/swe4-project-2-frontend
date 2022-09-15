@@ -6,13 +6,17 @@
       <div class="courseList"></div>
     </div>
     <PopUpModal v-show="isPopupVisible" @close="closePopup" />
+    <CourseItem style="display: none"></CourseItem>
   </div>
 </template>
 
 <script>
+import Vue from "vue";
 import SearchBar from "./components/SearchBar.vue";
 import NavBar from "./components/NavBar.vue";
 import PopUpModal from "./components/PopUpModal.vue";
+import CourseItem from "./components/CourseItem.vue";
+import CoursesDataService from "./services/CoursesDataService.js";
 
 export default {
   name: "App",
@@ -20,11 +24,19 @@ export default {
     SearchBar,
     NavBar,
     PopUpModal,
+    CourseItem,
   },
   data() {
     return {
       isPopupVisible: false,
+      responseLength: 0,
+      hold: [],
     };
+  },
+  created() {},
+  mounted() {
+    this.generateInitialCourseList();
+    this.responseLength = this.$store.getters.responseLength;
   },
   methods: {
     showPopup() {
@@ -32,6 +44,22 @@ export default {
     },
     closePopup() {
       this.isPopupVisible = false;
+    },
+    async generateInitialCourseList() {
+      this.hold = await CoursesDataService.getAll();
+      this.$store.commit({
+        type: "newSearch",
+        response: this.hold.data.Courses,
+      });
+      this.responseLength = this.$store.getters.responseLength;
+      for (var i = 0; i < this.responseLength; i++) {
+        this.$store.commit({ type: "setResponseIndex", index: i });
+        var courseItemComp = Vue.extend(CourseItem);
+        const courseItem = new courseItemComp({ parent: this });
+        courseItem.setListLocation(i);
+        courseItem.$mount();
+        document.querySelector(".courseList").appendChild(courseItem.$el);
+      }
     },
   },
 };
