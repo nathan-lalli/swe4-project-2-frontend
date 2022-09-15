@@ -61,6 +61,39 @@ export default {
         document.querySelector(".courseList").appendChild(courseItem.$el);
       }
     },
+    async generateSearchedCourseList(searchedPhrase) {
+      this.hold = [];
+      console.log("Searching for courses with - " + searchedPhrase);
+      var tempHold = CoursesDataService.getSemester(searchedPhrase);
+      this.placeInList(tempHold);
+      tempHold = CoursesDataService.getName(searchedPhrase);
+      this.placeInList(tempHold);
+      tempHold = CoursesDataService.getNumber(searchedPhrase);
+      this.placeInList(tempHold);
+      tempHold = CoursesDataService.getDept(searchedPhrase);
+      this.placeInList(tempHold);
+      this.$store.commit({
+        type: "newSearch",
+        response: this.hold.data.Courses,
+      });
+      this.responseLength = this.$store.getters.responseLength;
+      for (var i = 0; i < this.responseLength; i++) {
+        this.$store.commit({ type: "setResponseIndex", index: i });
+        var courseItemComp = Vue.extend(CourseItem);
+        const courseItem = new courseItemComp({ parent: this });
+        courseItem.setListLocation(i);
+        courseItem.$mount();
+        document.querySelector(".courseList").appendChild(courseItem.$el);
+      }
+    },
+    placeInList: function (listOfCourses) {
+      for (let i = 0; i < listOfCourses.length; i++) {
+        if (!this.hold.includes(listOfCourses[i])) {
+          console.log("Got a course");
+          this.hold.push(listOfCourses[i]);
+        }
+      }
+    },
   },
 };
 </script>

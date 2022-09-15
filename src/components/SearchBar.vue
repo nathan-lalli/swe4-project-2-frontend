@@ -25,34 +25,21 @@
 </template>
 
 <script>
-import { CourseDataService } from "../service/CourseDataService.js";
+//import { CourseDataService } from "../service/CourseDataService.js";
 export default {
   name: "SearchBar",
   props: {},
   data() {
     return {
       searchQuery: "",
-      listOfCourses: [],
     };
   },
   methods: {
     searchSubmission() {
       var searchQueryValue = this.$refs.searchQueryValue.value;
-
       if (searchQueryValue != "") {
         this.searchQuery = searchQueryValue;
-        if (CourseDataService.getSemester(this.searchQuery).length !== 0) {
-          this.listOfCourses = CourseDataService.getSemester(this.searchQuery);
-        } else if (CourseDataService.getName(this.searchQuery).length !== 0) {
-          this.listOfCourses = CourseDataService.getName(this.searchQuery);
-        } else if (CourseDataService.getDept(this.searchQuery).length !== 0) {
-          this.listOfCourses = CourseDataService.getDept(this.searchQuery);
-        } else if (CourseDataService.getNumber(this.searchQuery).length !== 0) {
-          this.listOfCourses = CourseDataService.getNumber(this.searchQuery);
-        } else {
-          alert("Please enter a valid search query!");
-        }
-        this.listOfCourses.push(CourseDataService.getName(this.searchQuery));
+        this.$parent.generateSearchedCourseList(this.searchQuery);
       } else {
         alert("Please enter a search query!");
       }
