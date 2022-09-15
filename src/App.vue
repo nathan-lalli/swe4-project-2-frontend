@@ -63,15 +63,7 @@ export default {
     },
     async generateSearchedCourseList(searchedPhrase) {
       this.hold = [];
-      console.log("Searching for courses with - " + searchedPhrase);
-      var tempHold = CoursesDataService.getSemester(searchedPhrase);
-      this.placeInList(tempHold);
-      tempHold = CoursesDataService.getName(searchedPhrase);
-      this.placeInList(tempHold);
-      tempHold = CoursesDataService.getNumber(searchedPhrase);
-      this.placeInList(tempHold);
-      tempHold = CoursesDataService.getDept(searchedPhrase);
-      this.placeInList(tempHold);
+
       this.$store.commit({
         type: "newSearch",
         response: this.hold.data.Courses,
@@ -84,14 +76,6 @@ export default {
         courseItem.setListLocation(i);
         courseItem.$mount();
         document.querySelector(".courseList").appendChild(courseItem.$el);
-      }
-    },
-    placeInList: function (listOfCourses) {
-      for (let i = 0; i < listOfCourses.length; i++) {
-        if (!this.hold.includes(listOfCourses[i])) {
-          console.log("Got a course");
-          this.hold.push(listOfCourses[i]);
-        }
       }
     },
   },
