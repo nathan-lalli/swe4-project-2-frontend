@@ -3,7 +3,7 @@
     <NavBar />
     <div class="pageContentContainer">
       <SearchBar />
-      <div class="courseListTemp"></div>
+      <div class="courseList"></div>
     </div>
     <PopUpModal v-show="isPopupVisible" @close="closePopup" />
     <pagination
@@ -12,14 +12,18 @@
       :currentPage="currentPage"
       @pagechanged="onPageChange"
     />
+    <CourseItem style="display: none"></CourseItem>
   </div>
 </template>
 
 <script>
+import Vue from "vue";
 import SearchBar from "./components/SearchBar.vue";
 import NavBar from "./components/NavBar.vue";
 import PopUpModal from "./components/PopUpModal.vue";
 import Pagination from "./components/Pagination.vue";
+import CourseItem from "./components/CourseItem.vue";
+import CoursesDataService from "./services/CoursesDataService.js";
 
 export default {
   name: "App",
@@ -28,12 +32,20 @@ export default {
     NavBar,
     PopUpModal,
     Pagination,
+    CourseItem,
   },
   data() {
     return {
       isPopupVisible: false,
       currentPage: 1,
+      responseLength: 0,
+      hold: [],
     };
+  },
+  created() {},
+  mounted() {
+    this.generateInitialCourseList();
+    this.responseLength = this.$store.getters.responseLength;
   },
   methods: {
     showPopup() {
@@ -46,6 +58,22 @@ export default {
       console.log(page);
       this.currentPage = page;
     },
+    async generateInitialCourseList() {
+      this.hold = await CoursesDataService.getAll();
+      this.$store.commit({
+        type: "newSearch",
+        response: this.hold.data.Courses,
+      });
+      this.responseLength = this.$store.getters.responseLength;
+      for (var i = 0; i < this.responseLength; i++) {
+        this.$store.commit({ type: "setResponseIndex", index: i });
+        var courseItemComp = Vue.extend(CourseItem);
+        const courseItem = new courseItemComp({ parent: this });
+        courseItem.setListLocation(i);
+        courseItem.$mount();
+        document.querySelector(".courseList").appendChild(courseItem.$el);
+      }
+    },
   },
 };
 </script>
@@ -56,9 +84,17 @@ export default {
   flex-flow: column;
   height: 100vh;
 }
+
 .pageContentContainer {
   display: flex;
   flex-flow: column;
   height: 100%;
+  padding: 0 2vw;
+}
+
+.courseList {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 2vh;
 }
 </style>
