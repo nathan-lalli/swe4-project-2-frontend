@@ -3,6 +3,15 @@
     <NavBar />
     <div class="pageContentContainer">
       <SearchBar />
+      <PopUpModal v-show="isPopupVisible" @close="closePopup">
+        <template v-slot:body>
+          <DeletePopUpBody
+            :deleteCourseName="getCourseName()"
+            v-show="isPopupVisible"
+            @close="closePopup"
+          />
+        </template>
+      </PopUpModal>
       <PaginationVue
         class="paginationVue"
         :totalPages="totalNumPages"
@@ -19,8 +28,6 @@
         @pagechanged="onPageChange"
       />
     </div>
-
-    <PopUpModal v-show="isPopupVisible" @close="closePopup" />
     <CourseItem style="display: none"></CourseItem>
   </div>
 </template>
@@ -30,16 +37,17 @@ import Vue from "vue";
 import SearchBar from "./components/SearchBar.vue";
 import NavBar from "./components/NavBar.vue";
 import PopUpModal from "./components/PopUpModal.vue";
+import DeletePopUpBody from "./components/DeletePopUpBody.vue";
 import PaginationVue from "./components/PaginationVue.vue";
 import CourseItem from "./components/CourseItem.vue";
 import CoursesDataService from "./services/CoursesDataService.js";
-
 export default {
   name: "App",
   components: {
     SearchBar,
     NavBar,
     PopUpModal,
+    DeletePopUpBody,
     PaginationVue,
     CourseItem,
   },
@@ -49,6 +57,7 @@ export default {
       currentPage: 1,
       responseLength: 0,
       hold: [],
+      deleteCourseNameVal: "",
       totalNumPages: 0,
     };
   },
@@ -119,6 +128,14 @@ export default {
         courseItem.$mount();
         document.querySelector(".courseList").appendChild(courseItem.$el);
       }
+    },
+    changeDeleteCourse: function (courseName) {
+      console.log(courseName + "Change Delete Course");
+      this.deleteCourseNameVal = courseName;
+    },
+    getCourseName: function () {
+      console.log(this.deleteCourseNameVal + "Get Course Name");
+      return this.deleteCourseNameVal;
     },
   },
 };

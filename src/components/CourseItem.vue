@@ -51,7 +51,7 @@
     </div>
     <div class="courseDeleteButton">
       <!-- TODO: Add @click="deleteCourse(course)" -->
-      <button>
+      <button @click="deleteCourse(courseDept + '-' + courseNumber)">
         <i class="fa-solid fa-trash-can"></i>
       </button>
     </div>
@@ -123,6 +123,10 @@ export default {
         );
         this.isCourseDropdownOpen = false;
       }
+    },
+    deleteCourse: function (courseName) {
+      this.$parent.changeDeleteCourse(courseName);
+      this.$parent.showPopup();
     },
     setListLocation(location) {
       this.listLocation = location;
