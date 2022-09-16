@@ -17,9 +17,6 @@
       <button>
         <i class="fa-solid fa-circle-plus"></i>
       </button>
-      <button>
-        <i class="fa-solid fa-filter"></i>
-      </button>
     </div>
   </div>
 </template>
@@ -50,7 +47,7 @@ export default {
 <style>
 .mainSearchBarContainer {
   display: grid;
-  grid-template-columns: 10fr 1fr;
+  grid-template-columns: 10fr 0.05fr;
   column-gap: 2vw;
   padding: 2vw 0;
 }
