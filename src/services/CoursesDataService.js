@@ -1,4 +1,4 @@
-import { get } from "core-js/core/dict";
+// import { get } from "core-js/core/dict";
 import http from "../http-common";
 class CoursesDataService {
   getAll() {
@@ -45,6 +45,9 @@ class CoursesDataService {
   }
   getPreReqCourse(course) {
     return http.get(`/course-t3/course/prerequisite/${course}`);
+  }
+  searchEverything(search) {
+    return http.get(`/course-t3/course/search/${search}`);
   }
 }
 export default new CoursesDataService();
