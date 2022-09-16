@@ -46,7 +46,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .slotDefaultBodyContent {
   width: 60vw;
   height: 2vh;

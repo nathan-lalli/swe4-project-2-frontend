@@ -1,17 +1,29 @@
 <template>
   <div class="mainCourseItemContainer withDropdownClosed">
-    <div class="courseEditButton">
-      <!-- TODO: Add @click="editCourse(course)" -->
-      <button>
-        <i class="fa-solid fa-pen-to-square"></i>
-      </button>
+    <div class="courseButtonsContainer">
+      <div class="courseButtonsContainerDropdown">
+        <!-- TODO: Add @click="editCourse(course)" -->
+        <button class="editButton">
+          <i class="fa-solid fa-pen-to-square"></i>
+        </button>
+        <div class="courseButtonsContainerDropdownContent">
+          <button
+            class="deleteButton"
+            @click="deleteCourse(courseDept + '-' + courseNumber)"
+          >
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
+      </div>
     </div>
     <div class="courseItemContainer">
       <div class="courseItemHeader">
         <div class="courseNumberContainer">
           {{ courseDept }}-{{ courseNumber }}
         </div>
-        <div class="courseNameContainer">{{ courseName }}</div>
+        <div class="courseNameContainer courseNameContainerOnClosed">
+          {{ courseName }}
+        </div>
         <div class="courseInformationContainer">
           <div class="courseInformationItems">
             <div class="courseInformationItem hoursItem">
@@ -37,23 +49,24 @@
               <i class="fa-solid fa-circle-exclamation"></i>
               <!-- TODO: Prereqs more than one? -->
               <div class="courseInformationItemValue prereqValue">
-                {{ coursePrereqs }}
+                {{
+                  coursePrereqs.length > 9
+                    ? coursePrereqs.substr(0, 15) + "..."
+                    : coursePrereqs
+                }}
               </div>
             </div>
           </div>
-          <div class="courseItemDescriptionDropdownButton">
+          <div
+            class="courseItemDescriptionDropdownButton"
+            v-if="showDropdownButton"
+          >
             <button @click="toggleDropwdown()">
               <i class="dropdownIcon fa-solid fa-caret-down"></i>
             </button>
           </div>
         </div>
       </div>
-    </div>
-    <div class="courseDeleteButton">
-      <!-- TODO: Add @click="deleteCourse(course)" -->
-      <button @click="deleteCourse(courseDept + '-' + courseNumber)">
-        <i class="fa-solid fa-trash-can"></i>
-      </button>
     </div>
     <div class="courseItemDescriptionDropdown">{{ courseDescription }}</div>
   </div>
@@ -72,9 +85,10 @@ export default {
       courseSemesters: [],
       courseLab: true,
       courseHasPrereqs: true,
-      coursePrereqs: [],
+      coursePrereqs: "",
       courseDescription: "",
       isCourseDropdownOpen: false,
+      showDropdownButton: true,
     };
   },
   mounted() {
@@ -85,34 +99,41 @@ export default {
     this.courseSemesters = this.$store.getters.courseSemesters;
     this.courseLab = this.$store.getters.courseLab;
     this.courseHasPrereqs = this.$store.getters.courseHasPrereqs;
-    this.coursePrereqs = this.$store.getters.coursePrereqs;
+    this.coursePrereqs = this.$store.getters.coursePrereqs.substr(
+      14,
+      this.$store.getters.coursePrereqs.length
+    );
     this.courseDescription = this.$store.getters.courseDesc;
+    this.courseDescription.length > 0 || this.courseName.length >= 30
+      ? (this.showDropdownButton = true)
+      : (this.showDropdownButton = false);
   },
   methods: {
     toggleDropwdown() {
       var courseListing =
         document.querySelector(".courseList").childNodes[this.listLocation];
       if (this.isCourseDropdownOpen === false) {
-        courseListing.querySelector(
-          ".courseItemDescriptionDropdown"
-        ).style.display = "flex";
-        courseListing.querySelector(".courseDeleteButton").style.display =
-          "flex";
+        if (this.courseDescription.length != 0) {
+          courseListing.querySelector(
+            ".courseItemDescriptionDropdown"
+          ).style.display = "flex";
+          courseListing.querySelector(".courseItemHeader").style.borderRadius =
+            "2.2vw 2.2vw 0 0";
+          courseListing.classList.replace(
+            "withDropdownClosed",
+            "withDropdownOpen"
+          );
+        }
         courseListing.querySelector(".dropdownIcon").className =
           "dropdownIcon fa-solid fa-caret-up";
-        courseListing.querySelector(".courseItemHeader").style.borderRadius =
-          "2.2vw 2.2vw 0 0";
-        courseListing.classList.replace(
-          "withDropdownClosed",
-          "withDropdownOpen"
-        );
+        courseListing
+          .querySelector(".courseNameContainer")
+          .classList.remove("courseNameContainerOnClosed");
         this.isCourseDropdownOpen = true;
       } else {
         courseListing.querySelector(
           ".courseItemDescriptionDropdown"
         ).style.display = "none";
-        courseListing.querySelector(".courseDeleteButton").style.display =
-          "none";
         courseListing.querySelector(".dropdownIcon").className =
           "dropdownIcon fa-solid fa-caret-down";
         courseListing.querySelector(".courseItemHeader").style.borderRadius =
@@ -121,6 +142,9 @@ export default {
           "withDropdownOpen",
           "withDropdownClosed"
         );
+        courseListing
+          .querySelector(".courseNameContainer")
+          .classList.add("courseNameContainerOnClosed");
         this.isCourseDropdownOpen = false;
       }
     },
@@ -151,7 +175,7 @@ export default {
   grid-template-rows: auto auto;
   grid-template-areas:
     "edit header"
-    "delete description";
+    ". description";
 }
 
 .withDropdownClosed {
@@ -159,15 +183,57 @@ export default {
   grid-template-areas: "edit header";
 }
 
-.courseEditButton {
+.courseButtonsContainer {
   align-items: center;
   display: flex;
   flex-flow: row;
   grid-area: edit;
   justify-content: center;
 }
+.courseButtonsContainerDropdown {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
+  border-radius: 10vw;
+  justify-content: center;
+  padding: 1vh 0;
+  position: absolute;
+  row-gap: 1vw;
+  z-index: 1;
+}
 
-.courseEditButton button {
+.courseButtonsContainerDropdownContent {
+  border-radius: 0 0 10vw 10vw;
+  display: none;
+  padding: 0 1vw;
+}
+
+.courseButtonsContainerDropdownContent .deleteButton {
+  border: none;
+  color: var(--dark-blue);
+  font-size: 2vw;
+}
+
+.courseButtonsContainerDropdownContent .deleteButton :hover {
+  border: none;
+  color: var(--light-red);
+  cursor: pointer;
+}
+
+.courseButtonsContainerDropdown:hover .courseButtonsContainerDropdownContent {
+  background-color: var(--light-gray);
+  display: block;
+}
+
+.courseButtonsContainerDropdown:hover .courseButtonsContainer {
+  background-color: var(--light-gray);
+}
+
+.courseButtonsContainerDropdown:hover {
+  background-color: var(--light-gray);
+}
+
+.courseButtonsContainer .editButton {
   background-color: transparent;
   border: none;
   color: var(--dark-blue);
@@ -176,31 +242,10 @@ export default {
   font-size: 2vw;
 }
 
-.courseEditButton button :hover {
+.courseButtonsContainer .editButton :hover {
   background-color: transparent;
   border: none;
-  color: var(--light-blue);
-  cursor: pointer;
-}
-
-.courseDeleteButton {
-  display: none;
-  flex-flow: row;
-  grid-area: delete;
-  justify-content: center;
-}
-
-.courseDeleteButton button {
-  background-color: white;
-  border: none;
-  color: var(--dark-blue);
-  font-size: 2vw;
-}
-
-.courseDeleteButton button :hover {
-  background-color: white;
-  border: none;
-  color: var(--light-red);
+  color: var(--light-green);
   cursor: pointer;
 }
 
@@ -223,11 +268,14 @@ export default {
 }
 
 .courseNumberContainer {
+  align-items: center;
   background-color: var(--light-gray);
   border-radius: 50vw;
   color: var(--dark-blue);
+  display: flex;
   font-size: 2vw;
   font-weight: 900;
+  justify-content: center;
   letter-spacing: 0.05vw;
   min-width: 12vw;
   padding: 1vh 1.5vw;
@@ -240,7 +288,14 @@ export default {
   font-size: 2vw;
   font-weight: 100;
   min-width: 30vw;
-  padding: 1vh 2vw;
+  max-width: 30vw;
+  padding: 1vh 1.5vw;
+}
+
+.courseNameContainerOnClosed {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .courseInformationContainer {
@@ -267,6 +322,18 @@ export default {
   flex-flow: row;
   font-weight: 900;
   font-size: 1.5vw;
+}
+
+.hoursItem {
+  min-width: 3vw;
+}
+
+.semesterItem {
+  max-width: 10vw;
+}
+
+.labItem {
+  min-width: 3vw;
 }
 
 .courseInformationItemValue {
