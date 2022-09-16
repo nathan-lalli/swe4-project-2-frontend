@@ -329,7 +329,11 @@ export default {
 }
 
 .semesterItem {
-  min-width: 10vw;
+  max-width: 10vw;
+}
+
+.labItem {
+  min-width: 3vw;
 }
 
 .courseInformationItemValue {
