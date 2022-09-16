@@ -22,6 +22,7 @@
 </template>
 
 <script>
+//import { CourseDataService } from "../service/CourseDataService.js";
 export default {
   name: "SearchBar",
   props: {},
@@ -33,9 +34,9 @@ export default {
   methods: {
     searchSubmission() {
       var searchQueryValue = this.$refs.searchQueryValue.value;
-
       if (searchQueryValue != "") {
         this.searchQuery = searchQueryValue;
+        this.$parent.generateSearchedCourseList(this.searchQuery);
       } else {
         alert("Please enter a search query!");
       }
