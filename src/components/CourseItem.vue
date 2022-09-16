@@ -7,7 +7,10 @@
           <i class="fa-solid fa-pen-to-square"></i>
         </button>
         <div class="courseButtonsContainerDropdownContent">
-          <button class="deleteButton">
+          <button
+            class="deleteButton"
+            @click="deleteCourse(courseDept + '-' + courseNumber)"
+          >
             <i class="fa-solid fa-trash-can"></i>
           </button>
         </div>
@@ -144,6 +147,10 @@ export default {
           .classList.add("courseNameContainerOnClosed");
         this.isCourseDropdownOpen = false;
       }
+    },
+    deleteCourse: function (courseName) {
+      this.$parent.changeDeleteCourse(courseName);
+      this.$parent.showPopup();
     },
     setListLocation(location) {
       this.listLocation = location;
