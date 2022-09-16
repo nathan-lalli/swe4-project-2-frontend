@@ -62,8 +62,8 @@ export default {
       }
     },
     async generateSearchedCourseList(searchedPhrase) {
-      this.hold = [];
-
+      document.querySelector(".courseList").innerHTML = "";
+      this.hold = await CoursesDataService.searchEverything(searchedPhrase);
       this.$store.commit({
         type: "newSearch",
         response: this.hold.data.Courses,
