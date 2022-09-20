@@ -27,7 +27,6 @@
       />
     </div>
     <div class="footerContainer"><p>CREATED 2022 BY TEAM 3</p></div>
-    <CourseItem style="display: none"></CourseItem>
   </div>
 </template>
 
