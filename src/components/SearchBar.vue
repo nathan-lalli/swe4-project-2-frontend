@@ -39,7 +39,6 @@ export default {
         this.$parent.generateSearchedCourseList(this.searchQuery);
       } else {
         this.searchQuery = searchQueryValue;
-        console.log("Cleared search");
         this.$parent.generateInitialCourseList();
       }
     },

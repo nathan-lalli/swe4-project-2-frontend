@@ -75,7 +75,6 @@ export default {
       this.isPopupVisible = false;
     },
     onPageChange(page) {
-      console.log(page);
       this.currentPage = page;
       document.querySelector(".courseList").innerHTML = "";
       this.changePageCourseList(page);
@@ -101,16 +100,9 @@ export default {
       }
     },
     async changePageCourseList(page) {
-      console.log(
-        "Total number of pages from change page: " + this.totalNumPages
-      );
-      console.log("Current phrase from change page: " + this.currentPhrase);
       if (this.currentPhrase === "") {
         this.hold = await CoursesDataService.getPage(page - 1);
       } else {
-        console.log(
-          "The current phrase was not nothing: " + this.currentPhrase
-        );
         this.hold = this.hold = await CoursesDataService.searchEverything(
           this.currentPhrase + "?page=" + (page - 1)
         );
@@ -134,7 +126,6 @@ export default {
       this.hold = await CoursesDataService.searchEverything(searchedPhrase);
       this.currentPhrase = searchedPhrase;
       this.totalNumPages = this.hold.data.totalPages;
-      console.log("Total number of pages: " + this.totalNumPages);
       this.currentPage = 1;
       this.$store.commit({
         type: "newSearch",
@@ -151,11 +142,9 @@ export default {
       }
     },
     changeDeleteCourse: function (courseName) {
-      console.log(courseName + "Change Delete Course");
       this.deleteCourseNameVal = courseName;
     },
     getCourseName: function () {
-      console.log(this.deleteCourseNameVal + "Get Course Name");
       return this.deleteCourseNameVal;
     },
   },
