@@ -13,7 +13,6 @@
         </template>
       </PopUpModal>
       <PaginationVue
-        class="paginationVue"
         :totalPages="totalNumPages"
         :perPage="25"
         :currentPage="currentPage"
@@ -21,7 +20,6 @@
       />
       <div class="courseList"></div>
       <PaginationVue
-        class="paginationVue"
         :totalPages="totalNumPages"
         :perPage="25"
         :currentPage="currentPage"
@@ -170,12 +168,6 @@ export default {
   grid-template-columns: 1fr;
   padding: 2vw 0;
   row-gap: 2vh;
-}
-
-.paginationVue {
-  align-items: center;
-  display: flex;
-  justify-content: center;
 }
 
 .footerContainer {
