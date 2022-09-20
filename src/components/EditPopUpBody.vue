@@ -103,7 +103,7 @@
     /* Course Number */
     
     // Get course number
-
+    
     // Recieve input
 
     // Remove old course number
