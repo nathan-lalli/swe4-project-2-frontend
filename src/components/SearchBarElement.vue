@@ -22,9 +22,8 @@
 </template>
 
 <script>
-//import { CourseDataService } from "../service/CourseDataService.js";
 export default {
-  name: "SearchBar",
+  name: "SearchBarElement",
   props: {},
   data() {
     return {
