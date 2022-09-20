@@ -1,48 +1,67 @@
 <template>
-  <ul class="pagination">
-    <li class="pagination-item">
-      <button type="button" @click="onClickFirstPage" :disabled="isInFirstPage">
-        First
-      </button>
-    </li>
+  <div class="mainPaginationContainer">
+    <ul class="pagination">
+      <li class="pagination-item">
+        <button
+          type="button"
+          @click="onClickFirstPage"
+          :disabled="isInFirstPage"
+          class="textButton"
+        >
+          First
+        </button>
+      </li>
 
-    <li class="pagination-item">
-      <button
-        type="button"
-        @click="onClickPreviousPage"
-        :disabled="isInFirstPage"
-      >
-        Previous
-      </button>
-    </li>
+      <li class="pagination-item">
+        <button
+          type="button"
+          @click="onClickPreviousPage"
+          :disabled="isInFirstPage"
+          class="arrowButton"
+        >
+          <i class="fa-solid fa-caret-left"></i>
+        </button>
+      </li>
 
-    <!-- Visible Buttons Start -->
+      <!-- Numbered Buttons Start -->
 
-    <li v-for="page in pages" :key="page.name" class="pagination-item">
-      <button
-        type="button"
-        @click="onClickPage(page.name)"
-        :disabled="page.isDisabled"
-        :class="{ active: isPageActive(page.name) }"
-      >
-        {{ page.name }}
-      </button>
-    </li>
+      <li v-for="page in pages" :key="page.name" class="pagination-item">
+        <button
+          type="button"
+          @click="onClickPage(page.name)"
+          :disabled="page.isDisabled"
+          class="numberButton"
+          :class="{ active: isPageActive(page.name) }"
+        >
+          {{ page.name }}
+        </button>
+      </li>
 
-    <!-- Visible Buttons End -->
+      <!-- Numbered Buttons End -->
 
-    <li class="pagination-item">
-      <button type="button" @click="onClickNextPage" :disabled="isInLastPage">
-        Next
-      </button>
-    </li>
+      <li class="pagination-item">
+        <button
+          type="button"
+          @click="onClickNextPage"
+          :disabled="isInLastPage"
+          class="arrowButton"
+        >
+          <i class="fa-solid fa-caret-right"></i>
+        </button>
+      </li>
 
-    <li class="pagination-item">
-      <button type="button" @click="onClickLastPage" :disabled="isInLastPage">
-        Last
-      </button>
-    </li>
-  </ul>
+      <li class="pagination-item">
+        <button
+          type="button"
+          @click="onClickLastPage"
+          :disabled="isInLastPage"
+          class="textButton"
+        >
+          Last
+        </button>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -78,7 +97,7 @@ export default {
         return this.totalPages - this.maxVisibleButtons;
       }
 
-      // When inbetween
+      // When in between first and last pages
       return this.currentPage - 1;
     },
     pages() {
@@ -129,10 +148,18 @@ export default {
 </script>
 
 <style>
+.mainPaginationContainer {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
 .pagination {
+  background-color: var(--light-gray);
+  border-radius: 20vw;
   list-style-type: none;
   margin-top: 10px;
   margin-bottom: 10px;
+  padding: 1vw;
 }
 
 .pagination-item {
@@ -140,16 +167,58 @@ export default {
   margin-left: 5px;
   margin-right: 5px;
 }
-.pagination-item button {
-  font-size: 2vw;
-  padding-left: 2vw;
-  padding-right: 2vw;
+
+.numberButton {
   border-radius: 1vw;
   border: none;
+  font-size: 1.5vw;
+  padding-left: 1.5vw;
+  padding-right: 1.5vw;
+}
+
+.numberButton:hover:enabled {
+  background-color: var(--dark-blue);
+  color: white;
+  cursor: pointer;
+}
+
+.textButton {
+  background-color: transparent;
+  border-radius: 1vw;
+  border: none;
+  color: var(--dark-blue);
+  font-size: 1.5vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+}
+.textButton:hover:enabled {
+  cursor: pointer;
+}
+
+.textButton:disabled {
+  color: var(--light-blue);
+}
+
+.arrowButton {
+  background-color: transparent;
+  border-radius: 1vw;
+  border: none;
+  color: var(--dark-blue);
+  font-size: 1.5vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+}
+
+.arrowButton:hover:enabled {
+  cursor: pointer;
+}
+
+.arrowButton:disabled {
+  color: var(--light-blue);
 }
 
 .active {
   background-color: var(--dark-blue);
-  color: #ffffff;
+  color: white;
 }
 </style>
