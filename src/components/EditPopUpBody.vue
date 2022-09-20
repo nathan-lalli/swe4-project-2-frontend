@@ -100,10 +100,15 @@
 </template>
 
 <script>
+    /* Populate Pop-Up */
+
+    // ^ via Course Name
+
+
     /* Course Number */
     
-    // Get course number
-    
+    // Get course number 
+
     // Recieve input
 
     // Remove old course number
@@ -113,15 +118,16 @@
 
     /* Course Name */
         
-    // Get course number
+    // Get course name
 
     // Recieve input
 
-    // Remove old course number
+    // Remove old name number
 
-    // Replace with new course number
+    // Replace with new course name
 
-
+    
+    // Little text box, course successfully edited
 </script>
 
 <style>
