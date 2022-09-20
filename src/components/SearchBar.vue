@@ -38,7 +38,8 @@ export default {
         this.searchQuery = searchQueryValue;
         this.$parent.generateSearchedCourseList(this.searchQuery);
       } else {
-        alert("Please enter a search query!");
+        this.searchQuery = searchQueryValue;
+        this.$parent.generateInitialCourseList();
       }
     },
   },

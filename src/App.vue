@@ -59,6 +59,7 @@ export default {
       hold: [],
       deleteCourseNameVal: "",
       totalNumPages: 0,
+      currentPhrase: "",
     };
   },
   created() {},
@@ -74,14 +75,16 @@ export default {
       this.isPopupVisible = false;
     },
     onPageChange(page) {
-      console.log(page);
       this.currentPage = page;
       document.querySelector(".courseList").innerHTML = "";
       this.changePageCourseList(page);
     },
     async generateInitialCourseList() {
+      document.querySelector(".courseList").innerHTML = "";
       this.hold = await CoursesDataService.getAll();
+      this.currentPage = 1;
       this.totalNumPages = this.hold.data.totalPages;
+      this.currentPhrase = "";
       this.$store.commit({
         type: "newSearch",
         response: this.hold.data.Courses,
@@ -97,7 +100,13 @@ export default {
       }
     },
     async changePageCourseList(page) {
-      this.hold = await CoursesDataService.getPage(page - 1);
+      if (this.currentPhrase === "") {
+        this.hold = await CoursesDataService.getPage(page - 1);
+      } else {
+        this.hold = this.hold = await CoursesDataService.searchEverything(
+          this.currentPhrase + "?page=" + (page - 1)
+        );
+      }
       this.$store.commit({
         type: "newSearch",
         response: this.hold.data.Courses,
@@ -115,6 +124,9 @@ export default {
     async generateSearchedCourseList(searchedPhrase) {
       document.querySelector(".courseList").innerHTML = "";
       this.hold = await CoursesDataService.searchEverything(searchedPhrase);
+      this.currentPhrase = searchedPhrase;
+      this.totalNumPages = this.hold.data.totalPages;
+      this.currentPage = 1;
       this.$store.commit({
         type: "newSearch",
         response: this.hold.data.Courses,
@@ -130,11 +142,9 @@ export default {
       }
     },
     changeDeleteCourse: function (courseName) {
-      console.log(courseName + "Change Delete Course");
       this.deleteCourseNameVal = courseName;
     },
     getCourseName: function () {
-      console.log(this.deleteCourseNameVal + "Get Course Name");
       return this.deleteCourseNameVal;
     },
   },
