@@ -17,16 +17,13 @@
       <button>
         <i class="fa-solid fa-circle-plus"></i>
       </button>
-      <button>
-        <i class="fa-solid fa-filter"></i>
-      </button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "SearchBar",
+  name: "SearchBarElement",
   props: {},
   data() {
     return {
@@ -36,11 +33,12 @@ export default {
   methods: {
     searchSubmission() {
       var searchQueryValue = this.$refs.searchQueryValue.value;
-
       if (searchQueryValue != "") {
         this.searchQuery = searchQueryValue;
+        this.$parent.generateSearchedCourseList(this.searchQuery);
       } else {
-        alert("Please enter a search query!");
+        this.searchQuery = searchQueryValue;
+        this.$parent.generateInitialCourseList();
       }
     },
   },
@@ -50,7 +48,7 @@ export default {
 <style>
 .mainSearchBarContainer {
   display: grid;
-  grid-template-columns: 10fr 1fr;
+  grid-template-columns: 10fr 0.05fr;
   column-gap: 2vw;
   padding: 2vw 0;
 }
