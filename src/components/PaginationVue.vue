@@ -12,11 +12,11 @@
         @click="onClickPreviousPage"
         :disabled="isInFirstPage"
       >
-        Previous
+        <i class="fa-solid fa-caret-left"></i>
       </button>
     </li>
 
-    <!-- Visible Buttons Start -->
+    <!-- Numbered Buttons Start -->
 
     <li v-for="page in pages" :key="page.name" class="pagination-item">
       <button
@@ -29,11 +29,11 @@
       </button>
     </li>
 
-    <!-- Visible Buttons End -->
+    <!-- Numbered Buttons End -->
 
     <li class="pagination-item">
       <button type="button" @click="onClickNextPage" :disabled="isInLastPage">
-        Next
+        <i class="fa-solid fa-caret-right"></i>
       </button>
     </li>
 
@@ -78,7 +78,7 @@ export default {
         return this.totalPages - this.maxVisibleButtons;
       }
 
-      // When inbetween
+      // When in between first and last pages
       return this.currentPage - 1;
     },
     pages() {
@@ -140,12 +140,19 @@ export default {
   margin-left: 5px;
   margin-right: 5px;
 }
+
 .pagination-item button {
+  border-radius: 1vw;
+  border: none;
   font-size: 2vw;
   padding-left: 2vw;
   padding-right: 2vw;
-  border-radius: 1vw;
-  border: none;
+}
+
+.pagination-item button:hover:enabled {
+  background-color: var(--dark-blue);
+  color: white;
+  cursor: pointer;
 }
 
 .active {

@@ -28,6 +28,7 @@
         @pagechanged="onPageChange"
       />
     </div>
+    <div class="footerContainer"><p>CREATED 2022 BY TEAM 3</p></div>
     <CourseItem style="display: none"></CourseItem>
   </div>
 </template>
@@ -161,18 +162,31 @@ export default {
 .pageContentContainer {
   display: flex;
   flex-flow: column;
-  height: 100%;
-  padding: 0 2vw;
+  padding: 0 2vw 2vw 2vw;
 }
 
 .courseList {
   display: grid;
   grid-template-columns: 1fr;
+  padding: 2vw 0;
   row-gap: 2vh;
 }
+
 .paginationVue {
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: center;
+}
+
+.footerContainer {
+  align-items: center;
+  background-color: var(--light-gray);
+  color: var(--dark-blue);
+  display: flex;
+  flex-flow: row;
+  font-weight: 900;
+  justify-content: center;
+  letter-spacing: 0.025vw;
+  padding: 2vw;
 }
 </style>
