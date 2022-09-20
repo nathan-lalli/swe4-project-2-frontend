@@ -59,6 +59,7 @@ export default {
       hold: [],
       deleteCourseNameVal: "",
       totalNumPages: 0,
+      currentPhrase: "",
     };
   },
   created() {},
@@ -80,8 +81,11 @@ export default {
       this.changePageCourseList(page);
     },
     async generateInitialCourseList() {
+      document.querySelector(".courseList").innerHTML = "";
       this.hold = await CoursesDataService.getAll();
+      this.currentPage = 1;
       this.totalNumPages = this.hold.data.totalPages;
+      this.currentPhrase = "";
       this.$store.commit({
         type: "newSearch",
         response: this.hold.data.Courses,
@@ -97,7 +101,20 @@ export default {
       }
     },
     async changePageCourseList(page) {
-      this.hold = await CoursesDataService.getPage(page - 1);
+      console.log(
+        "Total number of pages from change page: " + this.totalNumPages
+      );
+      console.log("Current phrase from change page: " + this.currentPhrase);
+      if (this.currentPhrase === "") {
+        this.hold = await CoursesDataService.getPage(page - 1);
+      } else {
+        console.log(
+          "The current phrase was not nothing: " + this.currentPhrase
+        );
+        this.hold = this.hold = await CoursesDataService.searchEverything(
+          this.currentPhrase + "?page=" + (page - 1)
+        );
+      }
       this.$store.commit({
         type: "newSearch",
         response: this.hold.data.Courses,
@@ -115,6 +132,10 @@ export default {
     async generateSearchedCourseList(searchedPhrase) {
       document.querySelector(".courseList").innerHTML = "";
       this.hold = await CoursesDataService.searchEverything(searchedPhrase);
+      this.currentPhrase = searchedPhrase;
+      this.totalNumPages = this.hold.data.totalPages;
+      console.log("Total number of pages: " + this.totalNumPages);
+      this.currentPage = 1;
       this.$store.commit({
         type: "newSearch",
         response: this.hold.data.Courses,
