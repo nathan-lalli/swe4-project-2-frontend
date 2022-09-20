@@ -2,7 +2,7 @@
   <div id="app">
     <NavBar />
     <div class="pageContentContainer">
-      <SearchBar />
+      <SearchBarElement />
       <PopUpModal v-show="isPopupVisible" @close="closePopup">
         <template v-slot:body>
           <DeletePopUpBody
@@ -33,7 +33,7 @@
 
 <script>
 import Vue from "vue";
-import SearchBar from "./components/SearchBar.vue";
+import SearchBarElement from "./components/SearchBarElement.vue";
 import NavBar from "./components/NavBar.vue";
 import PopUpModal from "./components/PopUpModal.vue";
 import DeletePopUpBody from "./components/DeletePopUpBody.vue";
@@ -43,7 +43,7 @@ import CoursesDataService from "./services/CoursesDataService.js";
 export default {
   name: "App",
   components: {
-    SearchBar,
+    SearchBarElement,
     NavBar,
     PopUpModal,
     DeletePopUpBody,
