@@ -1,6 +1,6 @@
 import axios from "axios";
 export default axios.create({
-  baseURL: "http://localhost:3003",
+  baseURL: "project2.eaglesoftwareteam.com",
   headers: {
     "Content-type": "application/json",
   },
