@@ -10,6 +10,7 @@
     "bundle": "mkdir deploy && cp -r config controllers models routes server.js package.json package-lock.json course-backend.service deploy && rm deploy/config/db.config.js && mv deploy/config/prod.db.config.js deploy/config/db.config.js"
   },
   "dependencies": {
+    "@vue/cli": "^5.0.8",
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "vue": "^2.6.14",
@@ -38,7 +39,9 @@
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
-    "rules": {"vue/no-unused-components": "off"}
+    "rules": {
+      "vue/no-unused-components": "off"
+    }
   },
   "browserslist": [
     "> 1%",
