@@ -21,16 +21,11 @@
           </div>
         </slot>
         <div class="buttonContainer">
-          <button class="backButton">
-            <i class="fa-solid fa-arrow-left" @click="close"></i>BACK
+          <button class="backButton" @click="close">
+            <i class="fa-solid fa-arrow-left"></i>BACK
           </button>
-          <button class="deleteButton">
-            <i
-              class="fa-solid fa-trash-can"
-              @click="deleteData(deleteCourseName)"
-            >
-            </i
-            >DELETE
+          <button class="deleteButton" @click="deleteData(deleteCourseName)">
+            <i class="fa-solid fa-trash-can"> </i>DELETE
           </button>
         </div>
       </div>
@@ -48,6 +43,7 @@ export default {
       this.$emit("close");
     },
     deleteData(courseName) {
+      console.log("test");
       CoursesDataService.delete(courseName);
 
       alert(courseName + " successfully deleted!");

@@ -203,6 +203,9 @@ export default {
     setDescription() {
       this.courseDesc = document.querySelector(".courseDescriptionValue").value;
     },
+    getOriginalCourseNumber() {
+      return this.editCourseData.coursenumber;
+    },
     save() {
       console.log("Saved");
       this.setDept();
@@ -216,7 +219,7 @@ export default {
       console.log(this.courseDept);
       console.log(this.courseNumber);
 
-      CoursesDataService.update(this.courseDept + "-" + this.courseNumber, {
+      CoursesDataService.update(this.getOriginalCourseNumber(), {
         dept: this.courseDept,
         coursenumber: this.courseDept + "-" + this.courseNumber,
         level: this.getLevel(),
@@ -242,6 +245,7 @@ export default {
           this.$parent.$parent.currentPhrase
         );
       }
+      this.$parent.$emit("close");
     },
   },
 };
