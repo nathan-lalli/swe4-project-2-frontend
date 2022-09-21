@@ -87,26 +87,24 @@
                 placeholder="Enter course information here."
                 :value="editCourseData.description"
             /> 
-        </div>
-        <div class="saveButtonsContainer">
-            <button @click="save()">
-                <i class="fa-solid fa-floppy-disk" > SAVE </i>
-            </button>
-        </div>
-        <div class="deleteButtonsContainer">
-            <button>
-                <i class="fa-solid fa-trash-can" > DELETE </i>
-            </button>
-        </div> 
     </div>
+    <div class="saveButtonsContainer">
+      <button @click="save()">
+        <i class="fa-solid fa-floppy-disk"> SAVE </i>
+      </button>
+    </div>
+    <div class="deleteButtonsContainer">
+      <button>
+        <i class="fa-solid fa-trash-can"> DELETE </i>
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>
-
 import CoursesDataService from "../services/CoursesDataService.js";
 
 export default {
-    
   name: "EditPopUpBody",
   data() {
     return {
@@ -119,7 +117,7 @@ export default {
       courseHasPrereqs: false,
       coursePrereqs: "",
       courseDescription: "",
-    }
+    };
   },
   props: ["editCourseData"],
   methods: {
@@ -127,315 +125,363 @@ export default {
       console.log(this.courseName + "Close");
       this.$emit("close");
     },
-    setDept() {  
-        this.courseDept = document.getElementById("courseNumberValue").value.split("-")[0];
+    setDept() {
+      this.courseDept = document
+        .getElementById("courseNumberValue")
+        .value.split("-")[0];
     },
     getLevel() {
-        return this.courseNumber.substr(0,1);
+      return this.courseNumber.substr(0, 1);
     },
     setNumber() {
-        this.courseNumber = document.getElementById("courseNumberValue").value.split("-")[1];
+      this.courseNumber = document
+        .getElementById("courseNumberValue")
+        .value.split("-")[1];
     },
     setName() {
-        this.courseName = document.getElementById("courseNameValue").value;
+      this.courseName = document.getElementById("courseNameValue").value;
     },
     setHours(hour) {
       this.courseHours = hour;
     },
     setSemesters() {
+      var semestersArray = [];
+      var children = document.querySelector(".no-bullets").childNodes;
 
-        var semestersArray = [];
-        var children = document.querySelector(".no-bullets").childNodes;
+      for (var i = 0; i < children.length; i++) {
+        var child = children[i];
 
-        for(var i = 0; i < children.length; i++) {
-            var child = children[i];
-
-            if(child.childNodes[0].checked) {
-                semestersArray.push(child.childNodes[1].data);
-            }
+        if (child.childNodes[0].checked) {
+          semestersArray.push(child.childNodes[1].data);
         }
+      }
 
-        if(semestersArray.length >= 2) {
-            this.courseSemesters = "Every";
-        }
-        else {
+      if (semestersArray.length >= 2) {
+        this.courseSemesters = "Every";
+      } else {
         this.courseSemesters = semestersArray.join(", ");
-        }
+      }
     },
     setLab() {
-        this.courseLab = document.querySelector(".labCheckbox").checked;
-
+      this.courseLab = document.querySelector(".labCheckbox").checked;
     },
     setCoursePrereqs() {
-        this.coursePrereqs = document.querySelector(".preReqElement").value; 
+      this.coursePrereqs = document.querySelector(".preReqElement").value;
 
-        if(this.coursePrereqs != "") {
-            this.courseHasPrereqs = true;
-        }
-        else {
-            this.courseHasPrereqs = false;
-        }
+      if (this.coursePrereqs != "") {
+        this.courseHasPrereqs = true;
+      } else {
+        this.courseHasPrereqs = false;
+      }
     },
     setDescription() {
-        this.courseDesc = document.querySelector(".courseDescriptionElement").value;
+      this.courseDesc = document.querySelector(
+        ".courseDescriptionElement"
+      ).value;
     },
     save() {
+      console.log("Saved");
+      this.setDept();
+      this.setNumber();
+      this.setName();
+      this.setSemesters();
+      this.setLab();
+      this.setCoursePrereqs();
+      this.setDescription();
 
-    console.log("Saved");
+      console.log(this.courseDept);
+      console.log(this.courseNumber);
 
-    this.setDept();
-    this.setNumber();
-    this.setName();
-    this.setSemesters();
-    this.setLab();
-    this.setCoursePrereqs();
-    this.setDescription();
-
-    console.log(this.courseDept);
-    console.log(this.courseNumber);
-
-    CoursesDataService.update((this.courseDept + "-" + this.courseNumber), {
-        dept: this.courseDept, 
-        coursenumber: (this.courseDept + "-" + this.courseNumber), 
+      CoursesDataService.update(this.courseDept + "-" + this.courseNumber, {
+        dept: this.courseDept,
+        coursenumber: this.courseDept + "-" + this.courseNumber,
         level: this.getLevel(),
-        hours: this.courseHours, 
-        name: this.courseName, 
-        description: this.courseDesc, 
-        prerequisite: this.courseHasPrereqs, 
-        lab: this.courseLab, 
-        semester: this.courseSemesters, 
-        prerequisitecourse: this.coursePrereqs
-        });
-    }
+        hours: this.courseHours,
+        name: this.courseName,
+        description: this.courseDesc,
+        prerequisite: this.courseHasPrereqs,
+        lab: this.courseLab,
+        semester: this.courseSemesters,
+        prerequisitecourse: this.coursePrereqs,
+      });
+
+      alert(
+        this.courseDept + "-" + this.courseNumber + " successfully edited!"
+      );
+      if (
+        this.$parent.$parent.currentPhrase === "" ||
+        this.$parent.$parent.currentPhrase == null
+      ) {
+        this.$parent.$parent.generateInitialCourseList();
+      } else {
+        this.$parent.$parent.generateSearchedCourseList(
+          this.$parent.$parent.currentPhrase
+        );
+      }
+    },
   },
 };
 </script>
 
 <style>
-    .grid-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 3fr 1fr;
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 3fr 1fr;
 
-    grid-template-areas:
-     'courseNum courseName courseName'
-     'hours offered lab'
-     'preReq preReq preReqDisplay'
-     'courseDesc courseDesc courseDesc'
-     'save . delete';
-    background-color: var(--light-gray);
-    padding: 10px;
-    }
+  grid-template-areas:
+    "courseNum courseName courseName"
+    "hours offered lab"
+    "preReq preReq preReqDisplay"
+    "courseDesc courseDesc courseDesc"
+    "save . delete";
+  background-color: var(--light-gray);
+  padding: 10px;
+}
 
-    .grid-container > div {
-    background-color: var(--light-gray);
-    text-align: left;
-    padding: 10px 0;
-    font-size: 15px;
-    }
+.grid-container > div {
+  background-color: var(--light-gray);
+  text-align: left;
+  padding: 10px 0;
+  font-size: 15px;
+}
 
-    /* Course Number */
-    .courseNumberContainer {grid-area: courseNum;}
-    .courseNumberElement {
-    background-color: white;
-    border: none;
-    border-radius: 10vw;
-    box-sizing: border-box;
-    color: var(--dark-blue);
-    font-size: 1.5vw;
-    letter-spacing: 0.1vw;
-    padding: 0 0 0 2vw;
-    }
+/* Course Number */
+.courseNumberContainer {
+  grid-area: courseNum;
+}
+.courseNumberElement {
+  background-color: white;
+  border: none;
+  border-radius: 10vw;
+  box-sizing: border-box;
+  color: var(--dark-blue);
+  font-size: 1.5vw;
+  letter-spacing: 0.1vw;
+  padding: 0 0 0 2vw;
+}
 
-    /* Course Name */
-    .courseNameContainer {grid-area: courseName;}
-    .courseNameElement {
-    background-color: white;
-    border: none;
-    border-radius: 10vw;
-    box-sizing: border-box;
-    color: var(--dark-blue);
-    font-size: 1.5vw;
-    letter-spacing: 0.1vw;
-    padding: 0 1vw 0 1vw;
-    width: 100%;
-    }   
+/* Course Name */
+.courseNameContainer {
+  grid-area: courseName;
+}
+.courseNameElement {
+  background-color: white;
+  border: none;
+  border-radius: 10vw;
+  box-sizing: border-box;
+  color: var(--dark-blue);
+  font-size: 1.5vw;
+  letter-spacing: 0.1vw;
+  padding: 0 1vw 0 1vw;
+  width: 100%;
+}
 
-    /* Hours */
-    .courseHoursContainer {grid-area: hours;}
-    .courseHoursElement {   
-    background-color: white;
-    border: none;
-    border-radius: 10vw;
-    box-sizing: border-box;
-    color: var(--dark-blue);
-    font-size: 1.5vw;
-    letter-spacing: 0.1vw;
-    padding: 0 2vw 0 2vw;
-    cursor: pointer;
-    }
+/* Hours */
+.courseHoursContainer {
+  grid-area: hours;
+}
+.courseHoursElement {
+  background-color: white;
+  border: none;
+  border-radius: 10vw;
+  box-sizing: border-box;
+  color: var(--dark-blue);
+  font-size: 1.5vw;
+  letter-spacing: 0.1vw;
+  padding: 0 2vw 0 2vw;
+  cursor: pointer;
+}
 
-    /* Semesters Offered */
-    .semestersOfferedContainer {grid-area: offered;}
-    .semestersOfferedElement {
-    background-color: white;
-    border: none;
-    border-radius: 10vw;
-    box-sizing: border-box;
-    color: var(--dark-blue);
-    font-size: 1.5vw;
-    letter-spacing: 0.1vw;
-    padding: 0 2vw 0 2vw;
-    cursor: pointer;
-    }
-    
-    /* Lab */
-    .labContainer {grid-area: lab;}
-    .labElement {
-    background-color: white;
-    border: none;
-    border-radius: 10vw;
-    box-sizing: border-box;
-    color: var(--dark-blue);
-    font-size: 1.5vw;
-    letter-spacing: 0.1vw;
-    padding: 0 0 0 0;
-    }  
+/* Semesters Offered */
+.semestersOfferedContainer {
+  grid-area: offered;
+}
+.semestersOfferedElement {
+  background-color: white;
+  border: none;
+  border-radius: 10vw;
+  box-sizing: border-box;
+  color: var(--dark-blue);
+  font-size: 1.5vw;
+  letter-spacing: 0.1vw;
+  padding: 0 2vw 0 2vw;
+  cursor: pointer;
+}
 
-    /* Prerequisite */
-    .preReqContainer 
-    {
-        display: grid;
-        grid-template-columns: 1fr .05fr;
-        grid-template-rows: 1fr 1fr;
-        grid-template-areas: "prHeader ." "prSearchElement prSearchButton";
-        grid-area: preReq;
-        width: 100%;
-    }
-    .displayPreReqContainer {grid-area: preReqContainer;}
-    .prHeader {grid-area: prHeader;}
-    .preReqElement {
-    background-color: white;
-    border: none;
-    border-radius: 10vw 0 0 10vw;
-    box-sizing: border-box;
-    color: var(--dark-blue);
-    font-size: 1.5vw;
-    grid-area: prSearchElement;
-    /* height: 100%; */
-    letter-spacing: 0.1vw;
-    padding: 0 0 0 2vw;
-    }     
-    .prSearchButton {
-        background-color: white;
-        border: none;
-        border-radius: 0 10vw 10vw 0;
-        color: var(--dark-blue);
-        grid-area: prSearchButton;
-        padding: 0 2vw 0 1vw;
+/* Lab */
+.labContainer {
+  grid-area: lab;
+}
+.labElement {
+  background-color: white;
+  border: none;
+  border-radius: 10vw;
+  box-sizing: border-box;
+  color: var(--dark-blue);
+  font-size: 1.5vw;
+  letter-spacing: 0.1vw;
+  padding: 0 0 0 0;
+}
 
-    }    
-    
-    /* Course Description */
-    .courseDescriptionContainer {grid-area: courseDesc}
-    .courseDescriptionElement {
-    background-color: white;
-    border: none;
-    border-radius: 2vw;
-    box-sizing: border-box;
-    color: var(--dark-blue);
-    font-size: 1.5vw;
-    height: 200px;
-    letter-spacing: 0.1vw;
-    padding: 0 2vw 0 2vw;
-    width: 100%;
-    }  
-    
-    /* Save Button */
-    .saveButtonsContainer{grid-area: save;}
-    .saveButtonsContainer button {
-    background-color: white;
-    border: none;
-    color: var(--light-green);
-    font-size: 2vw;
-    text-decoration: none;
-    border-radius: 10vw;
-    padding: 0 2vw 0 2vw;
-    }
-    .saveButtonsContainer button:hover {
-    color: var(--darker-green);
-    cursor: pointer;
-    }
+/* Prerequisite */
+.preReqContainer {
+  display: grid;
+  grid-template-columns: 1fr 0.05fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: "prHeader ." "prSearchElement prSearchButton";
+  grid-area: preReq;
+  width: 100%;
+}
+.displayPreReqContainer {
+  grid-area: preReqContainer;
+}
+.prHeader {
+  grid-area: prHeader;
+}
+.preReqElement {
+  background-color: white;
+  border: none;
+  border-radius: 10vw 0 0 10vw;
+  box-sizing: border-box;
+  color: var(--dark-blue);
+  font-size: 1.5vw;
+  grid-area: prSearchElement;
+  /* height: 100%; */
+  letter-spacing: 0.1vw;
+  padding: 0 0 0 2vw;
+}
+.prSearchButton {
+  background-color: white;
+  border: none;
+  border-radius: 0 10vw 10vw 0;
+  color: var(--dark-blue);
+  grid-area: prSearchButton;
+  padding: 0 2vw 0 1vw;
+}
 
-    /* Delete Button */
-    .deleteButtonsContainer{grid-area: delete;}
-    .deleteButtonsContainer button{
-    background-color: white;
-    border: none;
-    color: var(--light-red);
-    font-size: 2vw;
-    text-decoration: none;
-    border-radius: 10vw;
-    padding: 0 2vw 0 2vw;
-    }
-    .deleteButtonsContainer button:hover {
-    color: var(--darker-red);
-    cursor: pointer;
-    }
+/* Course Description */
+.courseDescriptionContainer {
+  grid-area: courseDesc;
+}
+.courseDescriptionElement {
+  background-color: white;
+  border: none;
+  border-radius: 2vw;
+  box-sizing: border-box;
+  color: var(--dark-blue);
+  font-size: 1.5vw;
+  height: 200px;
+  letter-spacing: 0.1vw;
+  padding: 0 2vw 0 2vw;
+  width: 100%;
+}
 
-    /* Dropdown */
-    .dropdown {position: relative; display: inline-block;}
-    .dropdown-content {
-    display: none;
-    position: absolute;
-    border-radius: 2vw;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    }
-    .dropdown-content a {
-    color: var(--dark-blue);
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    }
-    .dropdown-content a:hover {background-color: #f1f1f1}
-    .dropdown:hover .dropdown-content {display: block;}
+/* Save Button */
+.saveButtonsContainer {
+  grid-area: save;
+}
+.saveButtonsContainer button {
+  background-color: white;
+  border: none;
+  color: var(--light-green);
+  font-size: 2vw;
+  text-decoration: none;
+  border-radius: 10vw;
+  padding: 0 2vw 0 2vw;
+}
+.saveButtonsContainer button:hover {
+  color: var(--darker-green);
+  cursor: pointer;
+}
 
-    /* Checkbox */
-    /* Customize the label (the container) */
-    .checkbox-container {
-    display: block;
-    position: relative;
-    cursor: pointer;
-    font-size: 10px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    }
-    /* Create a custom checkbox */
-    .checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 25px;
-    width: 25px;
-    background-color: #eee;
-    }
-    /* On mouse-over, add a grey background color */
-    .container:hover input ~ .checkmark {background-color: #ccc;}
-    /* When the checkbox is checked, add a blue background */
-    .container input:checked ~ .checkmark {background-color: var(--dark-blue);}
-    /* Create the checkmark/indicator (hidden when not checked) */
-    .checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-    }
-    /* Show the checkmark when checked */
-    .container input:checked ~ .checkmark:after {display: block;}
+/* Delete Button */
+.deleteButtonsContainer {
+  grid-area: delete;
+}
+.deleteButtonsContainer button {
+  background-color: white;
+  border: none;
+  color: var(--light-red);
+  font-size: 2vw;
+  text-decoration: none;
+  border-radius: 10vw;
+  padding: 0 2vw 0 2vw;
+}
+.deleteButtonsContainer button:hover {
+  color: var(--darker-red);
+  cursor: pointer;
+}
 
-    ul.no-bullets {list-style-type: none; padding: 0 0 0 2vw;}
+/* Dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  border-radius: 2vw;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+.dropdown-content a {
+  color: var(--dark-blue);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Checkbox */
+/* Customize the label (the container) */
+.checkbox-container {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  font-size: 10px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: var(--dark-blue);
+}
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+ul.no-bullets {
+  list-style-type: none;
+  padding: 0 0 0 2vw;
+}
 </style>

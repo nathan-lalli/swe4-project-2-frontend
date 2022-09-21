@@ -25,7 +25,12 @@
             <i class="fa-solid fa-arrow-left" @click="close"> BACK</i>
           </button>
           <button class="deleteButton">
-            <i class="fa-solid fa-trash-can"> DELETE</i>
+            <i
+              class="fa-solid fa-trash-can"
+              @click="deleteData(deleteCourseName)"
+            >
+              DELETE</i
+            >
           </button>
         </div>
       </div>
@@ -34,12 +39,28 @@
 </template>
 
 <script>
+import CoursesDataService from "../services/CoursesDataService.js";
 export default {
   name: "DeletePopUpBody",
   props: ["deleteCourseName"],
   methods: {
     close() {
-      console.log(this.courseName + "Close");
+      this.$emit("close");
+    },
+    deleteData(courseName) {
+      CoursesDataService.delete(courseName);
+
+      alert(courseName + " successfully deleted!");
+      if (
+        this.$parent.$parent.currentPhrase === "" ||
+        this.$parent.$parent.currentPhrase == null
+      ) {
+        this.$parent.$parent.generateInitialCourseList();
+      } else {
+        this.$parent.$parent.generateSearchedCourseList(
+          this.$parent.$parent.currentPhrase
+        );
+      }
       this.$emit("close");
     },
   },
@@ -128,6 +149,7 @@ export default {
 .backButton {
   margin-right: 2vw;
   background-color: white;
+  color: var(--dark-blue);
   font-size: 15px;
   border-radius: 48.5px;
   padding-top: 5px;
@@ -139,6 +161,7 @@ export default {
 .deleteButton {
   margin-left: 2vw;
   background-color: white;
+  color: var(--light-red);
   font-size: 15px;
   border-radius: 48.5px;
   padding-top: 5px;
@@ -146,5 +169,14 @@ export default {
   padding-left: 20px;
   padding-right: 20px;
   border: none;
+}
+
+.backButton:hover {
+  background-color: var(--dark-blue);
+  color: white;
+}
+.deleteButton:hover {
+  background-color: var(--light-red);
+  color: white;
 }
 </style>

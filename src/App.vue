@@ -3,12 +3,12 @@
     <NavBar />
     <div class="pageContentContainer">
       <SearchBarElement />
-      <PopUpModal v-show="isPopupVisible" @close="closePopup">
+      <PopUpModal v-show="isPopupVisible" @close="closeDeletePopup">
         <template v-slot:body>
           <DeletePopUpBody
             :deleteCourseName="getCourseName()"
             v-show="isPopupVisible"
-            @close="closePopup"
+            @close="closeDeletePopup"
           />
         </template>
       </PopUpModal>
@@ -26,10 +26,15 @@
         @pagechanged="onPageChange"
       />
     </div>
-    <PopUpModal v-show="isEditPopupVisible" @close="closeEditPopup" style="z-index: 2;">
+    <PopUpModal
+      v-show="isEditPopupVisible"
+      @close="closeEditPopup"
+      style="z-index: 2"
+    >
       <template v-slot:headerText>Edit Course</template>
-      <template v-slot:body><EditPopUpBody :editCourseData="editCourseDataVal"
-        ></EditPopUpBody></template>
+      <template v-slot:body
+        ><EditPopUpBody :editCourseData="editCourseDataVal"></EditPopUpBody
+      ></template>
     </PopUpModal>
     <PopUpModal v-show="isAddPopupVisible" @close="closeAddPopup" style="z-index: 2;">
       <template v-slot:headerText>Add Course</template>
@@ -85,7 +90,7 @@ export default {
     this.responseLength = this.$store.getters.responseLength;
   },
   methods: {
-    showPopup() {
+    showDeletePopup() {
       this.isPopupVisible = true;
     },
     async showEditPopup() {
@@ -95,10 +100,7 @@ export default {
       console.log(this.editCourseDataVal);
       this.isEditPopupVisible = true;
     },
-    showAddPopup() {
-      this.isAddPopupVisible = true;
-    },
-    closePopup() {
+    closeDeletePopup() {
       this.isPopupVisible = false;
     },
     closeEditPopup() {
