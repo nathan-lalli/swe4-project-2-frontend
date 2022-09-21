@@ -14,7 +14,7 @@
       </button>
     </div>
     <div class="searchButtonsContainer">
-      <button>
+      <button @click="addCourse()">
         <i class="fa-solid fa-circle-plus"></i>
       </button>
     </div>
@@ -40,6 +40,10 @@ export default {
         this.$parent.generateInitialCourseList();
       }
     },
+    addCourse() {
+      console.log("Add");
+      this.$parent.showAddPopup();
+    }
   },
 };
 </script>

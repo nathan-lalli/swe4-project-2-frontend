@@ -1,84 +1,92 @@
-<template>
-  <div class="grid-container">
-    <div class="courseNumberContainer">
-      <header>Course #</header>
-      <input
-        class="courseNumberElement"
-        id="courseNumberValue"
-        type="text"
-        :value="editCourseData.coursenumber"
-      />
-    </div>
-    <div class="courseNameContainer">
-      <header>Course Name</header>
-      <input
-        class="courseNameElement"
-        id="courseNameValue"
-        type="text"
-        :value="editCourseData.name"
-      />
-    </div>
-    <div class="courseHoursContainer">
-      <div class="dropdown">
-        <button class="courseHoursElement">
-          <i class="fa-solid fa-clock"></i>
-          Hours <i class="fa-solid fa-chevron-down"></i>
-        </button>
-        <div class="dropdown-content">
-          <a href="#" @Click="setHours(1)">1</a>
-          <a href="#" @Click="setHours(2)">2</a>
-          <a href="#" @Click="setHours(3)">3</a>
-          <a href="#" @Click="setHours(4)">4</a>
+<template> 
+    <div class="grid-container">
+        <div class="courseNumberContainer">
+            <header>
+                Course #
+            </header>
+            <input
+                class="courseNumberElement"
+                id="courseNumberValue"
+                type="text"
+                :value="editCourseData.coursenumber" 
+            />
         </div>
-      </div>
-    </div>
-    <div class="semestersOfferedContainer">
-      <div class="dropdown">
-        <button class="semestersOfferedElement">
-          Semesters Offered <i class="fa-solid fa-chevron-down"></i>
-        </button>
-        <div class="dropdown-content">
-          <ul class="no-bullets">
-            <li><input type="checkbox" />Spring</li>
-            <li><input type="checkbox" />Summer</li>
-            <li><input type="checkbox" />Fall</li>
-            <li><input type="checkbox" />Winter</li>
-          </ul>
+        <div class="courseNameContainer">
+            <header>
+                Course Name
+            </header>
+            <input
+                class="courseNameElement"
+                id="courseNameValue"
+                type="text"
+                :value="editCourseData.name"
+            />
         </div>
-      </div>
-    </div>
-    <div class="labContainer">
-      <button class="semestersOfferedElement">
-        <ul class="no-bullets">
-          <li><input class="labCheckbox" type="checkbox" />Lab</li>
-        </ul>
-      </button>
-    </div>
-    <div class="preReqContainer">
-      <header class="prHeader">Prerequisites</header>
-      <input
-        class="preReqElement"
-        ref="preReqValue"
-        type="text"
-        placeholder="Search and Add"
-        :value="editCourseData.coursePrereqs"
-      />
-      <button class="prSearchButton">
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </button>
-    </div>
-    <div class="displayPreReqContainer">
-      <!-- Insert something here -->
-    </div>
-    <div class="courseDescriptionContainer">
-      <header>Course Description</header>
-      <input
-        class="courseDescriptionElement"
-        ref="courseDescriptionValue"
-        type="text"
-        placeholder="Enter course information here."
-        :value="editCourseData.description"
-      />
+        <div class="courseHoursContainer">
+            <div class="dropdown">
+                <button class="courseHoursElement">
+                    <i class="fa-solid fa-clock"></i>
+                    Hours <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="#" @click="setHours(1)">1</a>
+                    <a href="#" @click="setHours(2)">2</a>
+                    <a href="#" @click="setHours(3)">3</a>
+                    <a href="#" @click="setHours(4)">4</a>
+                </div>
+            </div>
+        </div>  
+        <div class="semestersOfferedContainer">
+            <div class="dropdown"> 
+                <button class="semestersOfferedElement">
+                    Semesters Offered <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <ul class="no-bullets">
+                        <li><input type="checkbox" />Spring</li>
+                        <li><input type="checkbox" />Summer</li>
+                        <li><input type="checkbox" />Fall</li>
+                        <li><input type="checkbox" />Winter</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="labContainer">
+            <button class="semestersOfferedElement">
+                <ul class="no-bullets">
+                    <li><input class="labCheckbox" type="checkbox" />Lab</li>
+                </ul>
+            </button>
+        </div>
+        <div class="preReqContainer">
+            <header class="prHeader">
+                Prerequisites
+            </header>
+            <input
+                class="preReqElement"
+                ref="preReqValue"
+                type="text"
+                placeholder="Search and Add"
+                :value="editCourseData.coursePrereqs"
+            />
+            <button class="prSearchButton">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+        <div class="displayPreReqContainer">
+                <!-- Insert something here -->
+        </div>
+        <div class="courseDescriptionContainer">
+            <header>
+                Course Description
+            </header>
+            <input
+                class="courseDescriptionElement"
+                ref="courseDescriptionValue"
+                type="text"
+                placeholder="Enter course information here."
+                :value="editCourseData.description"
+            /> 
     </div>
     <div class="saveButtonsContainer">
       <button @click="save()">
@@ -173,13 +181,12 @@ export default {
     },
     save() {
       console.log("Saved");
-
       this.setDept();
       this.setNumber();
       this.setName();
       this.setSemesters();
       this.setLab();
-      this.setCoursePrereqs;
+      this.setCoursePrereqs();
       this.setDescription();
 
       console.log(this.courseDept);
