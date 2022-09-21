@@ -175,6 +175,8 @@ export default {
         semester: this.courseSemesters,
         prerequisitecourse: this.coursePrereqs,
       });
+      alert(this.courseDept + "-" + this.courseNumber + " successfully added!");
+      this.$parent.$emit("close");
     },
   },
 };
