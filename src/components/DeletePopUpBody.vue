@@ -22,15 +22,15 @@
         </slot>
         <div class="buttonContainer">
           <button class="backButton">
-            <i class="fa-solid fa-arrow-left" @click="close"> BACK</i>
+            <i class="fa-solid fa-arrow-left" @click="close"></i>BACK
           </button>
           <button class="deleteButton">
             <i
               class="fa-solid fa-trash-can"
               @click="deleteData(deleteCourseName)"
             >
-              DELETE</i
-            >
+            </i
+            >DELETE
           </button>
         </div>
       </div>
@@ -142,41 +142,49 @@ export default {
   padding: 1vw;
 }
 .buttonContainer {
+  align-items: center;
+  display: flex;
+  column-gap: 2vw;
+  flex-flow: row;
   text-align: center;
-  margin-top: 5vh;
-  margin-bottom: 3vh;
+  justify-content: center;
+  padding: 3vw 0;
 }
 .backButton {
-  margin-right: 2vw;
+  align-items: center;
   background-color: white;
   color: var(--dark-blue);
-  font-size: 15px;
-  border-radius: 48.5px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 20px;
-  padding-right: 20px;
+  column-gap: 1vw;
+  display: flex;
+  flex-flow: row;
+  font-size: 1.5vw;
+  font-weight: 900;
+  border-radius: 20vw;
+  padding: 1vw 2vw;
   border: none;
 }
 .deleteButton {
-  margin-left: 2vw;
+  align-items: center;
   background-color: white;
   color: var(--light-red);
-  font-size: 15px;
-  border-radius: 48.5px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 20px;
-  padding-right: 20px;
+  column-gap: 1vw;
+  display: flex;
+  flex-flow: row;
+  font-size: 1.5vw;
+  font-weight: 900;
+  border-radius: 20vw;
+  padding: 1vw 2vw;
   border: none;
 }
 
 .backButton:hover {
   background-color: var(--dark-blue);
   color: white;
+  cursor: pointer;
 }
 .deleteButton:hover {
   background-color: var(--light-red);
   color: white;
+  cursor: pointer;
 }
 </style>
