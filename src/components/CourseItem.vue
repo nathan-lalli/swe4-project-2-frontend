@@ -95,6 +95,7 @@ export default {
     };
   },
   mounted() {
+    console.log(this.$store.getters.courseDesc);
     this.courseDept = this.$store.getters.courseDept;
     this.courseNumber = this.$store.getters.courseNumber;
     this.courseName = this.$store.getters.courseName;
@@ -116,7 +117,7 @@ export default {
       var courseListing =
         document.querySelector(".courseList").childNodes[this.listLocation];
       if (this.isCourseDropdownOpen === false) {
-        if (this.courseDescription.length != 0) {
+        if (!(this.courseDescription.length === 0)) {
           courseListing.querySelector(
             ".courseItemDescriptionDropdown"
           ).style.display = "flex";
@@ -284,7 +285,8 @@ export default {
   font-weight: 900;
   justify-content: center;
   letter-spacing: 0.05vw;
-  min-width: 12vw;
+  min-width: 13vw;
+  max-width: 13vw;
   padding: 1vh 1.5vw;
 }
 

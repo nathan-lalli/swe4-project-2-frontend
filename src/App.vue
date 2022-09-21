@@ -117,6 +117,7 @@ export default {
     async generateInitialCourseList() {
       document.querySelector(".courseList").innerHTML = "";
       this.hold = await CoursesDataService.getAll();
+      console.log(this.hold);
       this.currentPage = 1;
       this.totalNumPages = this.hold.data.totalPages;
       this.currentPhrase = "";
