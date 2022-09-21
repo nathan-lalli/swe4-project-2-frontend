@@ -33,11 +33,10 @@ export default {
   methods: {
     searchSubmission() {
       var searchQueryValue = this.$refs.searchQueryValue.value;
+      this.searchQuery = searchQueryValue;
       if (searchQueryValue != "") {
-        this.searchQuery = searchQueryValue;
         this.$parent.generateSearchedCourseList(this.searchQuery);
       } else {
-        this.searchQuery = searchQueryValue;
         this.$parent.generateInitialCourseList();
       }
     },
