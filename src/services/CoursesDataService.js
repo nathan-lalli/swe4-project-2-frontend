@@ -11,7 +11,7 @@ class CoursesDataService {
     return http.get(`/course-t3/course/coursenumber/${id}`);
   }
   create(data) {
-    return http.post("course-t3/course", data);
+    return http.post("/course-t3/course", data);
   }
   update(id, data) {
     return http.put(`/course-t3/course/coursenumber/${id}`, data);

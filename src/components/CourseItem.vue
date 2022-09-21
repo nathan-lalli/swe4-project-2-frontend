@@ -3,7 +3,10 @@
     <div class="courseButtonsContainer">
       <div class="courseButtonsContainerDropdown">
         <!-- TODO: Add @click="editCourse(course)" -->
-        <button class="editButton">
+        <button
+          class="editButton"
+          @click="editCourse(courseDept + '-' + courseNumber)"
+        >
           <i class="fa-solid fa-pen-to-square"></i>
         </button>
         <div class="courseButtonsContainerDropdownContent">
@@ -99,10 +102,12 @@ export default {
     this.courseSemesters = this.$store.getters.courseSemesters;
     this.courseLab = this.$store.getters.courseLab;
     this.courseHasPrereqs = this.$store.getters.courseHasPrereqs;
-    this.coursePrereqs = this.$store.getters.coursePrereqs.substr(
-      14,
-      this.$store.getters.coursePrereqs.length
-    );
+    if (this.courseHasPrereqs) {
+      this.coursePrereqs = this.$store.getters.coursePrereqs.substr(
+        14,
+        this.$store.getters.coursePrereqs.length
+      );
+    }
     this.courseDescription = this.$store.getters.courseDesc;
     this.courseDescription.length > 0 || this.courseName.length >= 30
       ? (this.showDropdownButton = true)
@@ -113,7 +118,7 @@ export default {
       var courseListing =
         document.querySelector(".courseList").childNodes[this.listLocation];
       if (this.isCourseDropdownOpen === false) {
-        if (this.courseDescription.length != 0) {
+        if (!(this.courseDescription.length === 0)) {
           courseListing.querySelector(
             ".courseItemDescriptionDropdown"
           ).style.display = "flex";
@@ -150,16 +155,20 @@ export default {
     },
     deleteCourse: function (courseName) {
       this.$parent.changeDeleteCourse(courseName);
-      this.$parent.showPopup();
+      this.$parent.showDeletePopup();
     },
     setListLocation(location) {
       this.listLocation = location;
+    },
+    editCourse: function (courseName) {
+      this.$parent.changeEditCourse(courseName);
+      this.$parent.showEditPopup();
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .mainCourseItemContainer {
   display: grid;
   grid-template-columns: 5fr 95fr;
@@ -277,7 +286,8 @@ export default {
   font-weight: 900;
   justify-content: center;
   letter-spacing: 0.05vw;
-  min-width: 12vw;
+  min-width: 13vw;
+  max-width: 13vw;
   padding: 1vh 1.5vw;
 }
 

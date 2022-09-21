@@ -3,12 +3,12 @@
     <NavBar />
     <div class="pageContentContainer">
       <SearchBarElement />
-      <PopUpModal v-show="isPopupVisible" @close="closePopup">
+      <PopUpModal v-show="isPopupVisible" @close="closeDeletePopup">
         <template v-slot:body>
           <DeletePopUpBody
             :deleteCourseName="getCourseName()"
             v-show="isPopupVisible"
-            @close="closePopup"
+            @close="closeDeletePopup"
           />
         </template>
       </PopUpModal>
@@ -26,6 +26,26 @@
         @pagechanged="onPageChange"
       />
     </div>
+    <PopUpModal
+      v-show="isEditPopupVisible"
+      @close="closeEditPopup"
+      style="z-index: 2"
+    >
+      <template v-slot:headerText>EDIT COURSE</template>
+      <template v-slot:body
+        ><EditPopUpBody :editCourseData="editCourseDataVal"></EditPopUpBody
+      ></template>
+    </PopUpModal>
+    <PopUpModal
+      v-show="isAddPopupVisible"
+      @close="closeAddPopup"
+      style="z-index: 2"
+    >
+      <template v-slot:headerText>ADD COURSE</template>
+      <template v-slot:body><AddPopUpBody></AddPopUpBody></template>
+    </PopUpModal>
+
+    <CourseItem style="display: none"></CourseItem>
     <div class="footerContainer"><p>CREATED 2022 BY TEAM 3</p></div>
   </div>
 </template>
@@ -35,6 +55,8 @@ import Vue from "vue";
 import SearchBarElement from "./components/SearchBarElement.vue";
 import NavBar from "./components/NavBar.vue";
 import PopUpModal from "./components/PopUpModal.vue";
+import EditPopUpBody from "./components/EditPopUpBody.vue";
+import AddPopUpBody from "./components/AddPopUpBody.vue";
 import DeletePopUpBody from "./components/DeletePopUpBody.vue";
 import PaginationVue from "./components/PaginationVue.vue";
 import CourseItem from "./components/CourseItem.vue";
@@ -45,6 +67,8 @@ export default {
     SearchBarElement,
     NavBar,
     PopUpModal,
+    EditPopUpBody,
+    AddPopUpBody,
     DeletePopUpBody,
     PaginationVue,
     CourseItem,
@@ -52,10 +76,14 @@ export default {
   data() {
     return {
       isPopupVisible: false,
+      isEditPopupVisible: false,
+      isAddPopupVisible: false,
       currentPage: 1,
       responseLength: 0,
       hold: [],
       deleteCourseNameVal: "",
+      editCourseNameVal: "",
+      editCourseDataVal: "",
       totalNumPages: 0,
       currentPhrase: "",
     };
@@ -66,11 +94,25 @@ export default {
     this.responseLength = this.$store.getters.responseLength;
   },
   methods: {
-    showPopup() {
+    showDeletePopup() {
       this.isPopupVisible = true;
     },
-    closePopup() {
+    showAddPopup() {
+      this.isAddPopupVisible = true;
+    },
+    async showEditPopup() {
+      var hold = await CoursesDataService.getNumber(this.editCourseNameVal);
+      this.editCourseDataVal = hold.data.Courses[0];
+      this.isEditPopupVisible = true;
+    },
+    closeDeletePopup() {
       this.isPopupVisible = false;
+    },
+    closeEditPopup() {
+      this.isEditPopupVisible = false;
+    },
+    closeAddPopup() {
+      this.isAddPopupVisible = false;
     },
     onPageChange(page) {
       this.currentPage = page;
@@ -142,26 +184,30 @@ export default {
     changeDeleteCourse: function (courseName) {
       this.deleteCourseNameVal = courseName;
     },
+    changeEditCourse: function editCourseNameVal(courseName) {
+      this.editCourseNameVal = courseName;
+    },
     getCourseName: function () {
       return this.deleteCourseNameVal;
+    },
+    getEditCourseName: function () {
+      return this.editCourseNameVal;
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 #app {
   display: flex;
   flex-flow: column;
   height: 100vh;
 }
-
 .pageContentContainer {
   display: flex;
   flex-flow: column;
   padding: 0 2vw 2vw 2vw;
 }
-
 .courseList {
   display: grid;
   grid-template-columns: 1fr;

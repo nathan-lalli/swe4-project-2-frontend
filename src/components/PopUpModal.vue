@@ -31,10 +31,10 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .slotDefaultBodyContent {
   width: 50vw;
-  height: 60vh;
+  /* height: 60vh; */
 }
 
 .popupBackdrop {

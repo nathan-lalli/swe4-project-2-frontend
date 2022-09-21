@@ -14,7 +14,7 @@
       </button>
     </div>
     <div class="searchButtonsContainer">
-      <button>
+      <button @click="addCourse()">
         <i class="fa-solid fa-circle-plus"></i>
       </button>
     </div>
@@ -33,14 +33,17 @@ export default {
   methods: {
     searchSubmission() {
       var searchQueryValue = this.$refs.searchQueryValue.value;
+      this.searchQuery = searchQueryValue;
       if (searchQueryValue != "") {
-        this.searchQuery = searchQueryValue;
         this.$parent.generateSearchedCourseList(this.searchQuery);
       } else {
-        this.searchQuery = searchQueryValue;
         this.$parent.generateInitialCourseList();
       }
     },
+    addCourse() {
+      console.log("Add");
+      this.$parent.showAddPopup();
+    }
   },
 };
 </script>
