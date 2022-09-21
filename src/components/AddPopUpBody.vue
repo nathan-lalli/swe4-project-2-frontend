@@ -6,9 +6,8 @@
             </header>
             <input
                 class="courseNumberElement"
-                id="courseNumberValue"
+                id="courseNumberValueAdd"
                 type="text"
-                :value="editCourseData.coursenumber" 
             />
         </div>
         <div class="courseNameContainer">
@@ -17,14 +16,13 @@
             </header>
             <input
                 class="courseNameElement"
-                id="courseNameValue"
+                id="courseNameValueAdd"
                 type="text"
-                :value="editCourseData.name"
             />
         </div>
         <div class="courseHoursContainer">
             <div class="dropdown">
-                <button class="courseHoursElement">
+                <button class="courseHoursElementAdd">
                     <i class="fa-solid fa-clock"></i>
                     Hours <i class="fa-solid fa-chevron-down"></i>
                 </button>
@@ -38,11 +36,11 @@
         </div>  
         <div class="semestersOfferedContainer">
             <div class="dropdown"> 
-                <button class="semestersOfferedElement">
+                <button class="semestersOfferedElementAdd">
                     Semesters Offered <i class="fa-solid fa-chevron-down"></i>
                 </button>
                 <div class="dropdown-content">
-                    <ul class="no-bullets">
+                    <ul class="no-bullets semestersAdd">
                         <li><input type="checkbox" />Spring</li>
                         <li><input type="checkbox" />Summer</li>
                         <li><input type="checkbox" />Fall</li>
@@ -54,7 +52,7 @@
         <div class="labContainer">
             <button class="semestersOfferedElement">
                 <ul class="no-bullets">
-                    <li><input class="labCheckbox" type="checkbox" />Lab</li>
+                    <li><input class="labCheckboxAdd" type="checkbox" />Lab</li>
                 </ul>
             </button>
         </div>
@@ -63,11 +61,10 @@
                 Prerequisites
             </header>
             <input
-                class="preReqElement"
+                class="preReqElementAdd"
                 ref="preReqValue"
                 type="text"
                 placeholder="Search and Add"
-                :value="editCourseData.coursePrereqs"
             />
             <button class="prSearchButton">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -81,11 +78,10 @@
                 Course Description
             </header>
             <input
-                class="courseDescriptionElement"
+                class="courseDescriptionElementAdd"
                 ref="courseDescriptionValue"
                 type="text"
                 placeholder="Enter course information here."
-                :value="editCourseData.description"
             /> 
         </div>
         <div class="saveButtonsContainer">
@@ -106,9 +102,7 @@
 import CoursesDataService from "../services/CoursesDataService.js";
 
 export default {
-    
-  name: "EditPopUpBody",
-  data() {
+    data() {
     return {
       courseDept: "",
       courseNumber: 1111,
@@ -121,31 +115,30 @@ export default {
       courseDescription: "",
     }
   },
-  props: ["editCourseData"],
   methods: {
     close() {
       console.log(this.courseName + "Close");
       this.$emit("close");
     },
     setDept() {  
-        this.courseDept = document.getElementById("courseNumberValue").value.split("-")[0];
+        this.courseDept = document.getElementById("courseNumberValueAdd").value.split("-")[0];
     },
     getLevel() {
         return this.courseNumber.substr(0,1);
     },
     setNumber() {
-        this.courseNumber = document.getElementById("courseNumberValue").value.split("-")[1];
+        this.courseNumber = document.getElementById("courseNumberValueAdd").value.split("-")[1];
     },
     setName() {
-        this.courseName = document.getElementById("courseNameValue").value;
+        this.courseName = document.getElementById("courseNameValueAdd").value;
     },
     setHours(hour) {
-      this.courseHours = hour;
+        this.courseHours = hour;
     },
     setSemesters() {
 
         var semestersArray = [];
-        var children = document.querySelector(".no-bullets").childNodes;
+        var children = document.querySelector(".semestersAdd").childNodes;
 
         for(var i = 0; i < children.length; i++) {
             var child = children[i];
@@ -163,11 +156,11 @@ export default {
         }
     },
     setLab() {
-        this.courseLab = document.querySelector(".labCheckbox").checked;
+        this.courseLab = document.querySelector(".labCheckboxAdd").checked;
 
     },
     setCoursePrereqs() {
-        this.coursePrereqs = document.querySelector(".preReqElement").value; 
+        this.coursePrereqs = document.querySelector(".preReqElementAdd").value; 
 
         if(this.coursePrereqs != "") {
             this.courseHasPrereqs = true;
@@ -177,12 +170,10 @@ export default {
         }
     },
     setDescription() {
-        this.courseDesc = document.querySelector(".courseDescriptionElement").value;
+        this.courseDesc = document.querySelector(".courseDescriptionElementAdd").value;
     },
     save() {
-
-    console.log("Saved");
-
+        
     this.setDept();
     this.setNumber();
     this.setName();
@@ -192,9 +183,8 @@ export default {
     this.setDescription();
 
     console.log(this.courseDept);
-    console.log(this.courseNumber);
 
-    CoursesDataService.update((this.courseDept + "-" + this.courseNumber), {
+    CoursesDataService.create({
         dept: this.courseDept, 
         coursenumber: (this.courseDept + "-" + this.courseNumber), 
         level: this.getLevel(),
@@ -263,7 +253,7 @@ export default {
 
     /* Hours */
     .courseHoursContainer {grid-area: hours;}
-    .courseHoursElement {   
+    .courseHoursElementAdd {   
     background-color: white;
     border: none;
     border-radius: 10vw;
@@ -277,7 +267,7 @@ export default {
 
     /* Semesters Offered */
     .semestersOfferedContainer {grid-area: offered;}
-    .semestersOfferedElement {
+    .semestersOfferedElementAdd {
     background-color: white;
     border: none;
     border-radius: 10vw;
@@ -291,7 +281,7 @@ export default {
     
     /* Lab */
     .labContainer {grid-area: lab;}
-    .labElement {
+    .labElementAdd {
     background-color: white;
     border: none;
     border-radius: 10vw;
@@ -314,7 +304,7 @@ export default {
     }
     .displayPreReqContainer {grid-area: preReqContainer;}
     .prHeader {grid-area: prHeader;}
-    .preReqElement {
+    .preReqElementAdd {
     background-color: white;
     border: none;
     border-radius: 10vw 0 0 10vw;
@@ -338,7 +328,7 @@ export default {
     
     /* Course Description */
     .courseDescriptionContainer {grid-area: courseDesc}
-    .courseDescriptionElement {
+    .courseDescriptionElementAdd {
     background-color: white;
     border: none;
     border-radius: 2vw;

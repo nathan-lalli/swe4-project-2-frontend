@@ -31,6 +31,11 @@
       <template v-slot:body><EditPopUpBody :editCourseData="editCourseDataVal"
         ></EditPopUpBody></template>
     </PopUpModal>
+    <PopUpModal v-show="isAddPopupVisible" @close="closeAddPopup" style="z-index: 2;">
+      <template v-slot:headerText>Add Course</template>
+      <template v-slot:body><AddPopUpBody></AddPopUpBody></template>
+    </PopUpModal>
+
     <CourseItem style="display: none"></CourseItem>
     <div class="footerContainer"><p>CREATED 2022 BY TEAM 3</p></div>
   </div>
@@ -42,6 +47,7 @@ import SearchBarElement from "./components/SearchBarElement.vue";
 import NavBar from "./components/NavBar.vue";
 import PopUpModal from "./components/PopUpModal.vue";
 import EditPopUpBody from "./components/EditPopUpBody.vue";
+import AddPopUpBody from "./components/AddPopUpBody.vue";
 import DeletePopUpBody from "./components/DeletePopUpBody.vue";
 import PaginationVue from "./components/PaginationVue.vue";
 import CourseItem from "./components/CourseItem.vue";
@@ -53,6 +59,7 @@ export default {
     NavBar,
     PopUpModal,
     EditPopUpBody,
+    AddPopUpBody,
     DeletePopUpBody,
     PaginationVue,
     CourseItem,
@@ -61,6 +68,7 @@ export default {
     return {
       isPopupVisible: false,
       isEditPopupVisible: false,
+      isAddPopupVisible: false,
       currentPage: 1,
       responseLength: 0,
       hold: [],
@@ -87,11 +95,17 @@ export default {
       console.log(this.editCourseDataVal);
       this.isEditPopupVisible = true;
     },
+    showAddPopup() {
+      this.isAddPopupVisible = true;
+    },
     closePopup() {
       this.isPopupVisible = false;
     },
     closeEditPopup() {
       this.isEditPopupVisible = false;
+    },
+    closeAddPopup() {
+      this.isAddPopopVisibile = false;
     },
     onPageChange(page) {
       this.currentPage = page;
