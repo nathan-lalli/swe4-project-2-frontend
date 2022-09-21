@@ -95,7 +95,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$store.getters.courseDesc);
     this.courseDept = this.$store.getters.courseDept;
     this.courseNumber = this.$store.getters.courseNumber;
     this.courseName = this.$store.getters.courseName;
@@ -103,10 +102,12 @@ export default {
     this.courseSemesters = this.$store.getters.courseSemesters;
     this.courseLab = this.$store.getters.courseLab;
     this.courseHasPrereqs = this.$store.getters.courseHasPrereqs;
-    this.coursePrereqs = this.$store.getters.coursePrereqs.substr(
-      14,
-      this.$store.getters.coursePrereqs.length
-    );
+    if (this.courseHasPrereqs) {
+      this.coursePrereqs = this.$store.getters.coursePrereqs.substr(
+        14,
+        this.$store.getters.coursePrereqs.length
+      );
+    }
     this.courseDescription = this.$store.getters.courseDesc;
     this.courseDescription.length > 0 || this.courseName.length >= 30
       ? (this.showDropdownButton = true)
@@ -167,7 +168,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .mainCourseItemContainer {
   display: grid;
   grid-template-columns: 5fr 95fr;

@@ -31,13 +31,17 @@
       @close="closeEditPopup"
       style="z-index: 2"
     >
-      <template v-slot:headerText>Edit Course</template>
+      <template v-slot:headerText>EDIT COURSE</template>
       <template v-slot:body
         ><EditPopUpBody :editCourseData="editCourseDataVal"></EditPopUpBody
       ></template>
     </PopUpModal>
-    <PopUpModal v-show="isAddPopupVisible" @close="closeAddPopup" style="z-index: 2;">
-      <template v-slot:headerText>Add Course</template>
+    <PopUpModal
+      v-show="isAddPopupVisible"
+      @close="closeAddPopup"
+      style="z-index: 2"
+    >
+      <template v-slot:headerText>ADD COURSE</template>
       <template v-slot:body><AddPopUpBody></AddPopUpBody></template>
     </PopUpModal>
 
@@ -93,11 +97,12 @@ export default {
     showDeletePopup() {
       this.isPopupVisible = true;
     },
+    showAddPopup() {
+      this.isAddPopupVisible = true;
+    },
     async showEditPopup() {
-      console.log(this.editCourseNameVal);
       var hold = await CoursesDataService.getNumber(this.editCourseNameVal);
       this.editCourseDataVal = hold.data.Courses[0];
-      console.log(this.editCourseDataVal);
       this.isEditPopupVisible = true;
     },
     closeDeletePopup() {
@@ -107,7 +112,7 @@ export default {
       this.isEditPopupVisible = false;
     },
     closeAddPopup() {
-      this.isAddPopopVisibile = false;
+      this.isAddPopupVisible = false;
     },
     onPageChange(page) {
       this.currentPage = page;
@@ -117,7 +122,6 @@ export default {
     async generateInitialCourseList() {
       document.querySelector(".courseList").innerHTML = "";
       this.hold = await CoursesDataService.getAll();
-      console.log(this.hold);
       this.currentPage = 1;
       this.totalNumPages = this.hold.data.totalPages;
       this.currentPhrase = "";
@@ -193,7 +197,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #app {
   display: flex;
   flex-flow: column;

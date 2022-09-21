@@ -1,101 +1,127 @@
-<template> 
-    <div class="grid-container">
-        <div class="courseNumberContainer">
-            <header>
-                Course #
-            </header>
-            <input
-                class="courseNumberElement"
-                id="courseNumberValue"
-                type="text"
-                :value="editCourseData.coursenumber" 
-            />
+<template>
+  <div class="mainEditPopupBodyContainer">
+    <div class="courseNumberContainer">
+      <p>Course #</p>
+      <input
+        class="courseNumberElement"
+        id="courseNumberValue"
+        type="text"
+        :value="editCourseData.coursenumber"
+      />
+    </div>
+    <div class="courseNameContainer">
+      <p>Course Name</p>
+      <input
+        class="courseNameElement"
+        id="courseNameValue"
+        type="text"
+        :value="editCourseData.name"
+      />
+    </div>
+    <div class="multiSelectsContainer">
+      <div class="courseHoursContainer">
+        <div class="dropdown">
+          <button class="courseHoursElement">
+            <i class="fa-solid fa-clock"></i>
+            {{ courseHours }} <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="dropdownContent">
+            <a href="#" @click="setHours(1)">1</a>
+            <a href="#" @click="setHours(2)">2</a>
+            <a href="#" @click="setHours(3)">3</a>
+            <a href="#" @click="setHours(4)">4</a>
+          </div>
         </div>
-        <div class="courseNameContainer">
-            <header>
-                Course Name
-            </header>
-            <input
-                class="courseNameElement"
-                id="courseNameValue"
-                type="text"
-                :value="editCourseData.name"
-            />
+      </div>
+      <div class="semestersOfferedContainer">
+        <div class="dropdown">
+          <button class="semestersOfferedElement">
+            {{
+              editCourseData.semester != null
+                ? editCourseData.semester
+                : "Select Semester"
+            }}
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="dropdownContent">
+            <ul class="no-bullets">
+              <li>
+                <input
+                  type="checkbox"
+                  :checked="
+                    editCourseData.semester === 'Spring' ||
+                    editCourseData.semester === 'Every'
+                  "
+                />Spring
+              </li>
+              <li>
+                <input
+                  type="checkbox"
+                  :checked="
+                    editCourseData.semester === 'Summer' ||
+                    editCourseData.semester === 'Every'
+                  "
+                />Summer
+              </li>
+              <li>
+                <input
+                  type="checkbox"
+                  :checked="
+                    editCourseData.semester === 'Fall' ||
+                    editCourseData.semester === 'Every'
+                  "
+                />Fall
+              </li>
+              <li>
+                <input
+                  type="checkbox"
+                  :checked="
+                    editCourseData.semester === 'Winter' ||
+                    editCourseData.semester === 'Every'
+                  "
+                />Winter
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="courseHoursContainer">
-            <div class="dropdown">
-                <button class="courseHoursElement">
-                    <i class="fa-solid fa-clock"></i>
-                    Hours <i class="fa-solid fa-chevron-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a href="#" @click="setHours(1)">1</a>
-                    <a href="#" @click="setHours(2)">2</a>
-                    <a href="#" @click="setHours(3)">3</a>
-                    <a href="#" @click="setHours(4)">4</a>
-                </div>
-            </div>
-        </div>  
-        <div class="semestersOfferedContainer">
-            <div class="dropdown"> 
-                <button class="semestersOfferedElement">
-                    Semesters Offered <i class="fa-solid fa-chevron-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <ul class="no-bullets">
-                        <li><input type="checkbox" />Spring</li>
-                        <li><input type="checkbox" />Summer</li>
-                        <li><input type="checkbox" />Fall</li>
-                        <li><input type="checkbox" />Winter</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="labContainer">
-            <button class="semestersOfferedElement">
-                <ul class="no-bullets">
-                    <li><input class="labCheckbox" type="checkbox" />Lab</li>
-                </ul>
-            </button>
-        </div>
-        <div class="preReqContainer">
-            <header class="prHeader">
-                Prerequisites
-            </header>
-            <input
-                class="preReqElement"
-                ref="preReqValue"
-                type="text"
-                placeholder="Search and Add"
-                :value="editCourseData.coursePrereqs"
-            />
-            <button class="prSearchButton">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </div>
-        <div class="displayPreReqContainer">
-                <!-- Insert something here -->
-        </div>
-        <div class="courseDescriptionContainer">
-            <header>
-                Course Description
-            </header>
-            <input
-                class="courseDescriptionElement"
-                ref="courseDescriptionValue"
-                type="text"
-                placeholder="Enter course information here."
-                :value="editCourseData.description"
-            /> 
+      </div>
+      <div class="labContainer">
+        <button class="labElement">
+          <ul class="no-bullets">
+            <li>
+              <input
+                class="labCheckbox"
+                type="checkbox"
+                :checked="editCourseData.lab"
+              />Lab
+            </li>
+          </ul>
+        </button>
+      </div>
+    </div>
+    <div class="preReqContainer">
+      <p>Prerequisites</p>
+      <input
+        class="preReqElement"
+        ref="preReqValue"
+        type="text"
+        placeholder="i.e. 'CMSC-2113, CMSC-1113'"
+        :value="editCourseData.prerequisitecourse"
+      />
+    </div>
+    <div class="courseDescriptionContainer">
+      <p>Course Description</p>
+      <div class="courseDescriptionElement">
+        <textarea
+          class="courseDescriptionValue"
+          placeholder="Enter course information here."
+          :value="editCourseData.description"
+        />
+      </div>
     </div>
     <div class="saveButtonsContainer">
       <button @click="save()">
-        <i class="fa-solid fa-floppy-disk"> SAVE </i>
-      </button>
-    </div>
-    <div class="deleteButtonsContainer">
-      <button>
-        <i class="fa-solid fa-trash-can"> DELETE </i>
+        <i class="fa-solid fa-floppy-disk"></i>SAVE
       </button>
     </div>
   </div>
@@ -175,9 +201,7 @@ export default {
       }
     },
     setDescription() {
-      this.courseDesc = document.querySelector(
-        ".courseDescriptionElement"
-      ).value;
+      this.courseDesc = document.querySelector(".courseDescriptionValue").value;
     },
     save() {
       console.log("Saved");
@@ -223,32 +247,36 @@ export default {
 };
 </script>
 
-<style>
-.grid-container {
+<style scoped>
+.mainEditPopupBodyContainer {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 3fr 1fr;
+  grid-template-rows: 1.5fr 1fr 1.5fr 3fr 1fr;
 
   grid-template-areas:
     "courseNum courseName courseName"
-    "hours offered lab"
-    "preReq preReq preReqDisplay"
+    "multiSelect multiSelect multiSelect"
+    "preReq preReq preReq"
     "courseDesc courseDesc courseDesc"
-    "save . delete";
+    ". save .";
   background-color: var(--light-gray);
+  row-gap: 1vw;
+  column-gap: 2vw;
   padding: 10px;
 }
 
-.grid-container > div {
-  background-color: var(--light-gray);
-  text-align: left;
-  padding: 10px 0;
-  font-size: 15px;
+p {
+  font-size: 1.75vw;
 }
 
 /* Course Number */
 .courseNumberContainer {
+  align-items: left;
+  display: flex;
+  flex-flow: column;
   grid-area: courseNum;
+  justify-content: left;
+  row-gap: 1vw;
 }
 .courseNumberElement {
   background-color: white;
@@ -258,12 +286,17 @@ export default {
   color: var(--dark-blue);
   font-size: 1.5vw;
   letter-spacing: 0.1vw;
-  padding: 0 0 0 2vw;
+  padding: 1vw 2vw;
 }
 
 /* Course Name */
 .courseNameContainer {
+  align-items: left;
+  display: flex;
+  flex-flow: column;
   grid-area: courseName;
+  justify-content: left;
+  row-gap: 1vw;
 }
 .courseNameElement {
   background-color: white;
@@ -273,14 +306,27 @@ export default {
   color: var(--dark-blue);
   font-size: 1.5vw;
   letter-spacing: 0.1vw;
-  padding: 0 1vw 0 1vw;
+  padding: 1vw 2vw;
   width: 100%;
+}
+
+.multiSelectsContainer {
+  display: flex;
+  column-gap: 2vw;
+  flex-flow: row;
+  grid-area: multiSelect;
 }
 
 /* Hours */
 .courseHoursContainer {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
   grid-area: hours;
+  justify-content: center;
+  row-gap: 1vw;
 }
+
 .courseHoursElement {
   background-color: white;
   border: none;
@@ -289,14 +335,20 @@ export default {
   color: var(--dark-blue);
   font-size: 1.5vw;
   letter-spacing: 0.1vw;
-  padding: 0 2vw 0 2vw;
+  padding: 1vw 2vw;
   cursor: pointer;
 }
 
 /* Semesters Offered */
 .semestersOfferedContainer {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
   grid-area: offered;
+  justify-content: center;
+  row-gap: 1vw;
 }
+
 .semestersOfferedElement {
   background-color: white;
   border: none;
@@ -305,14 +357,20 @@ export default {
   color: var(--dark-blue);
   font-size: 1.5vw;
   letter-spacing: 0.1vw;
-  padding: 0 2vw 0 2vw;
+  padding: 1vw 2vw;
   cursor: pointer;
 }
 
 /* Lab */
 .labContainer {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
   grid-area: lab;
+  justify-content: center;
+  row-gap: 1vw;
 }
+
 .labElement {
   background-color: white;
   border: none;
@@ -321,95 +379,83 @@ export default {
   color: var(--dark-blue);
   font-size: 1.5vw;
   letter-spacing: 0.1vw;
-  padding: 0 0 0 0;
+  padding: 1vw 2vw;
+  cursor: pointer;
 }
 
 /* Prerequisite */
 .preReqContainer {
-  display: grid;
-  grid-template-columns: 1fr 0.05fr;
-  grid-template-rows: 1fr 1fr;
-  grid-template-areas: "prHeader ." "prSearchElement prSearchButton";
+  align-items: left;
+  display: flex;
+  flex-flow: column;
   grid-area: preReq;
-  width: 100%;
-}
-.displayPreReqContainer {
-  grid-area: preReqContainer;
-}
-.prHeader {
-  grid-area: prHeader;
+  justify-content: left;
+  row-gap: 1vw;
 }
 .preReqElement {
   background-color: white;
   border: none;
-  border-radius: 10vw 0 0 10vw;
+  border-radius: 10vw;
   box-sizing: border-box;
   color: var(--dark-blue);
   font-size: 1.5vw;
-  grid-area: prSearchElement;
-  /* height: 100%; */
   letter-spacing: 0.1vw;
-  padding: 0 0 0 2vw;
-}
-.prSearchButton {
-  background-color: white;
-  border: none;
-  border-radius: 0 10vw 10vw 0;
-  color: var(--dark-blue);
-  grid-area: prSearchButton;
-  padding: 0 2vw 0 1vw;
+  padding: 1vw 2vw;
 }
 
 /* Course Description */
 .courseDescriptionContainer {
+  align-items: left;
+  display: flex;
+  flex-flow: column;
   grid-area: courseDesc;
+  height: 100%;
+  justify-content: left;
+  width: 100%;
+  row-gap: 1vw;
 }
+
 .courseDescriptionElement {
-  background-color: white;
+  height: 100%;
+}
+
+.courseDescriptionContainer textarea {
   border: none;
   border-radius: 2vw;
   box-sizing: border-box;
   color: var(--dark-blue);
   font-size: 1.5vw;
-  height: 200px;
-  letter-spacing: 0.1vw;
-  padding: 0 2vw 0 2vw;
+  height: 100%;
   width: 100%;
+  padding: 1vw 2vw 1vw 2vw;
 }
 
 /* Save Button */
 .saveButtonsContainer {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
   grid-area: save;
+  justify-content: center;
+  row-gap: 1vw;
 }
 .saveButtonsContainer button {
+  align-items: center;
   background-color: white;
   border: none;
   color: var(--light-green);
+  column-gap: 1vw;
+  display: flex;
+  flex-flow: row;
   font-size: 2vw;
+  font-weight: 900;
   text-decoration: none;
   border-radius: 10vw;
-  padding: 0 2vw 0 2vw;
+  padding: 1vw 2vw;
 }
 .saveButtonsContainer button:hover {
-  color: var(--darker-green);
-  cursor: pointer;
-}
-
-/* Delete Button */
-.deleteButtonsContainer {
-  grid-area: delete;
-}
-.deleteButtonsContainer button {
-  background-color: white;
-  border: none;
-  color: var(--light-red);
-  font-size: 2vw;
-  text-decoration: none;
-  border-radius: 10vw;
-  padding: 0 2vw 0 2vw;
-}
-.deleteButtonsContainer button:hover {
-  color: var(--darker-red);
+  background-color: var(--light-green);
+  color: white;
   cursor: pointer;
 }
 
@@ -418,25 +464,25 @@ export default {
   position: relative;
   display: inline-block;
 }
-.dropdown-content {
+.dropdownContent {
   display: none;
   position: absolute;
   border-radius: 2vw;
   background-color: #f9f9f9;
-  min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  padding: 1vw;
   z-index: 1;
 }
-.dropdown-content a {
+.dropdownContent a {
   color: var(--dark-blue);
   padding: 12px 16px;
   text-decoration: none;
   display: block;
 }
-.dropdown-content a:hover {
+.dropdownContent a:hover {
   background-color: #f1f1f1;
 }
-.dropdown:hover .dropdown-content {
+.dropdown:hover .dropdownContent {
   display: block;
 }
 
@@ -482,6 +528,6 @@ export default {
 
 ul.no-bullets {
   list-style-type: none;
-  padding: 0 0 0 2vw;
+  /* padding: 0 0 0 2vw; */
 }
 </style>
