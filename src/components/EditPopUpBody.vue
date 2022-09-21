@@ -6,9 +6,9 @@
             </header>
             <input
                 class="courseNumberElement"
-                ref="courseNumberValue"
+                id="courseNumberValue"
                 type="text"
-                placeholder="ex. 'CMSC-2133'"
+                :value="editCourseData.coursenumber" 
             />
         </div>
         <div class="courseNameContainer">
@@ -17,9 +17,9 @@
             </header>
             <input
                 class="courseNameElement"
-                ref="courseNameValue"
+                id="courseNameValue"
                 type="text"
-                placeholder="ex. 'Object Oriented Programming'"
+                :value="editCourseData.name"
             />
         </div>
         <div class="courseHoursContainer">
@@ -29,10 +29,10 @@
                     Hours <i class="fa-solid fa-chevron-down"></i>
                 </button>
                 <div class="dropdown-content">
-                    <a href="#">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
+                    <a href="#" @Click="setHours(1)">1</a>
+                    <a href="#" @Click="setHours(2)">2</a>
+                    <a href="#" @Click="setHours(3)">3</a>
+                    <a href="#" @Click="setHours(4)">4</a>
                 </div>
             </div>
         </div>  
@@ -54,7 +54,7 @@
         <div class="labContainer">
             <button class="semestersOfferedElement">
                 <ul class="no-bullets">
-                    <li><input type="radio" />Lab</li>
+                    <li><input class="labCheckbox" type="checkbox" />Lab</li>
                 </ul>
             </button>
         </div>
@@ -67,6 +67,7 @@
                 ref="preReqValue"
                 type="text"
                 placeholder="Search and Add"
+                :value="editCourseData.coursePrereqs"
             />
             <button class="prSearchButton">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -83,51 +84,131 @@
                 class="courseDescriptionElement"
                 ref="courseDescriptionValue"
                 type="text"
-                placeholder="ex. 'CMSC-2133'"
+                placeholder="Enter course information here."
+                :value="editCourseData.description"
             /> 
         </div>
         <div class="saveButtonsContainer">
-            <button>
-                <i class="fa-solid fa-floppy-disk"> SAVE </i>
+            <button @click="save()">
+                <i class="fa-solid fa-floppy-disk" > SAVE </i>
             </button>
         </div>
         <div class="deleteButtonsContainer">
             <button>
-                <i class="fa-solid fa-trash-can"> DELETE </i>
+                <i class="fa-solid fa-trash-can" > DELETE </i>
             </button>
         </div> 
     </div>
 </template>
 
 <script>
-    /* Populate Pop-Up */
 
-    // ^ via Course Name
+import CoursesDataService from "../services/CoursesDataService.js";
 
-
-    /* Course Number */
+export default {
     
-    // Get course number 
+  name: "EditPopUpBody",
+  data() {
+    return {
+      courseDept: "",
+      courseNumber: 1111,
+      courseName: "",
+      courseHours: 3,
+      courseSemesters: "",
+      courseLab: true,
+      courseHasPrereqs: false,
+      coursePrereqs: "",
+      courseDescription: "",
+    }
+  },
+  props: ["editCourseData"],
+  methods: {
+    close() {
+      console.log(this.courseName + "Close");
+      this.$emit("close");
+    },
+    setDept() {  
+        this.courseDept = document.getElementById("courseNumberValue").value.split("-")[0];
+    },
+    getLevel() {
+        return this.courseNumber.substr(0,1);
+    },
+    setNumber() {
+        this.courseNumber = document.getElementById("courseNumberValue").value.split("-")[1];
+    },
+    setName() {
+        this.courseName = document.getElementById("courseNameValue").value;
+    },
+    setHours(hour) {
+      this.courseHours = hour;
+    },
+    setSemesters() {
 
-    // Recieve input
+        var semestersArray = [];
+        var children = document.querySelector(".no-bullets").childNodes;
 
-    // Remove old course number
+        for(var i = 0; i < children.length; i++) {
+            var child = children[i];
 
-    // Replace with new course number
+            if(child.childNodes[0].checked) {
+                semestersArray.push(child.childNodes[1].data);
+            }
+        }
 
+        if(semestersArray.length >= 2) {
+            this.courseSemesters = "Every";
+        }
+        else {
+        this.courseSemesters = semestersArray.join(", ");
+        }
+    },
+    setLab() {
+        this.courseLab = document.querySelector(".labCheckbox").checked;
 
-    /* Course Name */
-        
-    // Get course name
+    },
+    setCoursePrereqs() {
+        this.coursePrereqs = document.querySelector(".preReqElement").value; 
 
-    // Recieve input
+        if(this.coursePrereqs != "") {
+            this.courseHasPrereqs = true;
+        }
+        else {
+            this.courseHasPrereqs = false;
+        }
+    },
+    setDescription() {
+        this.courseDesc = document.querySelector(".courseDescriptionElement").value;
+    },
+    save() {
 
-    // Remove old name number
+    console.log("Saved");
 
-    // Replace with new course name
+    this.setDept();
+    this.setNumber();
+    this.setName();
+    this.setSemesters();
+    this.setLab();
+    this.setCoursePrereqs
+    this.setDescription();
 
-    
-    // Little text box, course successfully edited
+    console.log(this.courseDept);
+    console.log(this.courseNumber);
+
+    CoursesDataService.update((this.courseDept + "-" + this.courseNumber), {
+        dept: this.courseDept, 
+        coursenumber: (this.courseDept + "-" + this.courseNumber), 
+        level: this.getLevel(),
+        hours: this.courseHours, 
+        name: this.courseName, 
+        description: this.courseDesc, 
+        prerequisite: this.courseHasPrereqs, 
+        lab: this.courseLab, 
+        semester: this.courseSemesters, 
+        prerequisitecourse: this.coursePrereqs
+        });
+    }
+  },
+};
 </script>
 
 <style>

@@ -3,7 +3,7 @@
     <div class="courseButtonsContainer">
       <div class="courseButtonsContainerDropdown">
         <!-- TODO: Add @click="editCourse(course)" -->
-        <button class="editButton">
+        <button class="editButton" @click="editCourse(courseDept + '-' + courseNumber)">
           <i class="fa-solid fa-pen-to-square"></i>
         </button>
         <div class="courseButtonsContainerDropdownContent">
@@ -155,6 +155,10 @@ export default {
     setListLocation(location) {
       this.listLocation = location;
     },
+    editCourse: function (courseName) {
+      this.$parent.changeEditCourse(courseName);
+      this.$parent.showEditPopup();
+    }
   },
 };
 </script>

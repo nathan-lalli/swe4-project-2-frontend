@@ -26,9 +26,10 @@
         @pagechanged="onPageChange"
       />
     </div>
-    <PopUpModal v-show="isPopupVisible" @close="closePopup" >
+    <PopUpModal v-show="isEditPopupVisible" @close="closeEditPopup" style="z-index: 2;">
       <template v-slot:headerText>Edit Course</template>
-      <template v-slot:body><EditPopUpBody></EditPopUpBody></template>
+      <template v-slot:body><EditPopUpBody :editCourseData="editCourseDataVal"
+        ></EditPopUpBody></template>
     </PopUpModal>
     <CourseItem style="display: none"></CourseItem>
     <div class="footerContainer"><p>CREATED 2022 BY TEAM 3</p></div>
@@ -58,11 +59,14 @@ export default {
   },
   data() {
     return {
-      isPopupVisible: true,
+      isPopupVisible: false,
+      isEditPopupVisible: false,
       currentPage: 1,
       responseLength: 0,
       hold: [],
       deleteCourseNameVal: "",
+      editCourseNameVal: "",
+      editCourseDataVal: "",
       totalNumPages: 0,
       currentPhrase: "",
     };
@@ -76,8 +80,18 @@ export default {
     showPopup() {
       this.isPopupVisible = true;
     },
+    async showEditPopup() {
+      console.log(this.editCourseNameVal);
+      var hold = await CoursesDataService.getNumber(this.editCourseNameVal);
+      this.editCourseDataVal = hold.data.Courses[0];
+      console.log(this.editCourseDataVal);
+      this.isEditPopupVisible = true;
+    },
     closePopup() {
       this.isPopupVisible = false;
+    },
+    closeEditPopup() {
+      this.isEditPopupVisible = false;
     },
     onPageChange(page) {
       this.currentPage = page;
@@ -149,8 +163,14 @@ export default {
     changeDeleteCourse: function (courseName) {
       this.deleteCourseNameVal = courseName;
     },
+    changeEditCourse: function editCourseNameVal(courseName) {
+      this.editCourseNameVal = courseName;
+    },
     getCourseName: function () {
       return this.deleteCourseNameVal;
+    },
+    getEditCourseName: function () {
+      return this.editCourseNameVal;
     },
   },
 };
